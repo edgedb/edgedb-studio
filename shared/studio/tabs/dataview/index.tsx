@@ -179,7 +179,7 @@ const DataInspectorView = observer(function DataInspectorView({
           {dataviewState.edits.hasPendingEdits ? (
             <>
               <div
-                className={styles.headerButton}
+                className={cn(styles.headerButton, styles.reviewChanges)}
                 onClick={() =>
                   openModal(<ReviewEditsModal state={dataviewState} />)
                 }

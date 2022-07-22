@@ -1,3 +1,4 @@
+import {useEffect, useState} from "react";
 import {observer} from "mobx-react";
 
 import cn from "@edgedb/common/utils/classNames";
@@ -55,12 +56,7 @@ export default observer(function ReplHistoryCell({
             >
               Edit
             </button>
-            <button
-              className={styles.smallButton}
-              onClick={() => cell.scriptBlock!.copyToClipboard()}
-            >
-              Copy
-            </button>
+            <CopyButton action={() => cell.scriptBlock!.copyToClipboard()} />
           </div>
         ) : null}
         <div className={cn(styles.cell)}>
@@ -96,12 +92,10 @@ export default observer(function ReplHistoryCell({
                 ) : null}
                 <div className={styles.info}>
                   {cell instanceof ReplResultCell && cell._result ? (
-                    <button
-                      className={styles.smallButton}
-                      onClick={() => cell.copyAsJson()}
-                    >
-                      Copy as JSON
-                    </button>
+                    <CopyButton
+                      label="Copy as JSON"
+                      action={() => cell.copyAsJson()}
+                    />
                   ) : null}
                   <div className={styles.infoLabel}>
                     {/*<ReplQueryDuration duration={cell.duration} />*/}
@@ -127,6 +121,37 @@ export default observer(function ReplHistoryCell({
     </div>
   );
 });
+
+function CopyButton({
+  label = "Copy",
+  action,
+}: {
+  label?: string;
+  action: () => void;
+}) {
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    if (copied) {
+      const timeout = setTimeout(() => setCopied(false), 1000);
+      return () => {
+        clearTimeout(timeout);
+      };
+    }
+  }, [copied]);
+
+  return (
+    <button
+      className={styles.smallButton}
+      onClick={() => {
+        setCopied(true);
+        action();
+      }}
+    >
+      {copied ? "Copied!" : label}
+    </button>
+  );
+}
 
 interface ReplCellHeaderProps {
   cell: ReplHistoryCellState;
@@ -166,12 +191,7 @@ const ReplCellHeader = observer(function _ReplCellHeader({
               >
                 Edit
               </button>
-              <button
-                className={styles.smallButton}
-                onClick={() => cell.copyToClipboard()}
-              >
-                Copy
-              </button>
+              <CopyButton action={() => cell.copyToClipboard()} />
             </>
           ) : null}
 

@@ -261,6 +261,23 @@ export class DataInspector extends Model({
     }
 
     this._updateRowCount();
+
+    const updateFieldDisposer = reaction(
+      () => this.objectType,
+      () => {
+        this._updateFields();
+        this._refreshData();
+      }
+    );
+    const refreshDataDisposer = reaction(
+      () => connCtx.get(this)!.sessionGlobals,
+      () => this._refreshData(true)
+    );
+
+    return () => {
+      updateFieldDisposer();
+      refreshDataDisposer();
+    };
   }
 
   @computed
@@ -385,6 +402,7 @@ export class DataInspector extends Model({
 
     this.fields = [...baseFields, ...subtypeFields];
     this.fieldWidths = Array(this.fields.length).fill(180);
+    this.gridRef?.resetAfterColumnIndex(0);
   }
 
   @computed

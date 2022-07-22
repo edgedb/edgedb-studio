@@ -18,7 +18,13 @@ import {
   lineNumbers,
   highlightActiveLineGutter,
 } from "@codemirror/view";
-import {defaultKeymap, history, historyKeymap} from "@codemirror/commands";
+import {
+  defaultKeymap,
+  history,
+  historyKeymap,
+  indentLess,
+  indentMore,
+} from "@codemirror/commands";
 import {
   bracketMatching,
   LanguageSupport,
@@ -84,6 +90,21 @@ function getExtensions({
       ...historyKeymap,
       ...completionKeymap,
       ...lintKeymap,
+      {
+        key: "Tab",
+        run: ({state, dispatch}) => {
+          if (state.selection.ranges.some((r) => !r.empty))
+            return indentMore({state, dispatch});
+          dispatch(
+            state.update(state.replaceSelection("  "), {
+              scrollIntoView: true,
+              userEvent: "input",
+            })
+          );
+          return true;
+        },
+        shift: indentLess,
+      },
     ]),
     //
     useDarkTheme ? darkTheme : lightTheme,
