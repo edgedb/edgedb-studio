@@ -323,6 +323,33 @@ const DraftProviderConfigForm = observer(function DraftProviderConfigForm({
               onChange={(e) => draftState.setAdditionalScope(e.target.value)}
             />
           </div>
+          {draftState.selectedProviderType ===
+          "ext::auth::DiscordOAuthProvider" ? (
+            <>
+              <div className={styles.formRow}>
+                <Checkbox
+                  label={
+                    <>
+                      Always show consent form
+                      <InfoTooltip
+                        message={
+                          <>
+                            Whether the user is shown a consent form from the provider.
+                            Disabling this will still show the form when the user is new
+                            or when the requested scopes have been changed.
+                          </>
+                        }
+                      />
+                    </>
+                  }
+                  checked={draftState.alwaysShowConsentForm}
+                  onChange={(checked) =>
+                    draftState.setAlwaysShowConsentForm(checked)
+                  }
+                />
+              </div>
+            </>
+          ) : null}
         </>
       ) : providerKind === "Local" ? (
         <>

@@ -1349,6 +1349,7 @@ export class DraftProviderConfig extends Model({
   oauthClientId: prop<string | null>(null).withSetter(),
   oauthSecret: prop<string | null>(null).withSetter(),
   additionalScope: prop("").withSetter(),
+  alwaysShowConsentForm: prop(true).withSetter(),
 
   providerName: prop<string | null>(null).withSetter(),
   displayName: prop<string | null>(null).withSetter(),
@@ -1536,6 +1537,13 @@ export class DraftProviderConfig extends Model({
             `display_name := ${JSON.stringify(this.displayName!.trim())}`,
             `issuer_url := ${JSON.stringify(this.issuerUrl!.trim())}`
           );
+          if (this.selectedProviderType === "ext::auth::DiscordOAuthProvider") {
+            queryFields.push(
+              `always_show_consent_form := ${
+                this.alwaysShowConsentForm ? "true" : "false"
+              }`
+            );
+          };
           if (this.logoUrl.trim()) {
             queryFields.push(
               `logo_url := ${JSON.stringify(this.logoUrl!.trim())}`
