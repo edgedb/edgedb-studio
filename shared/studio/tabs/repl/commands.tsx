@@ -22,9 +22,9 @@ export function renderCommandResult(state: Repl, result: CommandResult) {
             <>
               <div className={styles.heading}>Settings</div>
               <div className={styles.command}>
-                \set language {"("}edgeql | sql{")"},
+                \set language {"("}query | sql{")"},
                 <br />
-                \edgeql, \sql
+                \query, \sql
               </div>
               <div className={styles.info}>Set the query language</div>
             </>

@@ -1,11 +1,11 @@
-@import "@edgedb/common/mixins.scss";
+@import "@dbsof/common/mixins.scss";
 
 .cloudLogo {
   @include isMobile {
     width: 37px;
   }
 }
-.gel {
+.wordmark {
   fill: var(--Grey30);
   @include darkTheme {
     fill: var(--Grey65);

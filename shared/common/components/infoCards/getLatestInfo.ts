@@ -1,49 +1,34 @@
-import useSWR from "swr";
-import {z} from "zod";
+export type LatestInfo = {
+  latestBlogPost: {
+    title: string;
+    url: string;
+    publishedTimestamp: number;
+    imageUrl: string;
+    imageBrightness: number;
+  };
+  latestUpdate: {
+    title: string;
+    url: string;
+  };
+  latestReleaseVersion: {major: number; minor: number};
+};
 
-const latestInfoUrl =
-  (import.meta as any).env?.VITE_LATEST_INFO_URL ||
-  "https://www.geldata.com/latestInfo.json";
-
-const latestInfoType = z.object({
-  latestBlogPost: z.object({
-    title: z.string(),
-    url: z.string(),
-    publishedTimestamp: z.number(),
-    imageUrl: z.string(),
-    imageBrightness: z.number(),
-  }),
-  latestUpdate: z.object({
-    title: z.string(),
-    url: z.string(),
-  }),
-  latestEdgeDBVersion: z.string().transform((ver) => {
-    const [major, minor] = ver.split(".").map((n) => parseInt(n, 10));
-    return {major, minor};
-  }),
-});
-
-export type LatestInfo = z.infer<typeof latestInfoType>;
-
-async function fetchLatestInfo() {
-  const res = await fetch(latestInfoUrl);
-  if (!res.ok) {
-    throw new Error(
-      `fetching latest info failed with error: ${res.status} ${res.statusText}`
-    );
-  }
-  try {
-    return latestInfoType.parse(await res.json());
-  } catch (e) {
-    console.error(e);
-    throw e;
-  }
-}
+const fallbackLatestInfo: LatestInfo = {
+  latestBlogPost: {
+    title: "Building with the UI starter kit",
+    url: "https://example.com/blog/ui-starter",
+    publishedTimestamp: Date.now() - 1000 * 60 * 60 * 24 * 7,
+    imageUrl:
+      "https://images.unsplash.com/photo-1529101091764-c3526daf38fe?auto=format&fit=crop&w=1200&q=80",
+    imageBrightness: 0.8,
+  },
+  latestUpdate: {
+    title: "Template-ready: components, layouts, and patterns",
+    url: "https://example.com/updates/template-ready",
+  },
+  latestReleaseVersion: {major: 1, minor: 0},
+};
 
 export function useLatestInfo() {
-  const {data} = useSWR("_latestInfo", fetchLatestInfo, {
-    revalidateOnFocus: false,
-  });
-
-  return data;
+  return fallbackLatestInfo;
 }

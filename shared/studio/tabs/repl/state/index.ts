@@ -21,8 +21,8 @@ import {
   ErrorDetails,
   extractErrorDetails,
 } from "../../../utils/extractErrorDetails";
-import {createInspector, InspectorState, Item} from "@edgedb/inspector/state";
-import {baseOptions, decode, EdgeDBSet} from "../../../utils/decodeRawBuffer";
+import {createInspector, InspectorState, Item} from "@dbsof/inspector/state";
+import {baseOptions, decode, ResultSet} from "../../../utils/decodeRawBuffer";
 import {CommandResult, handleSlashCommand} from "./commands";
 import {
   clearReplHistory,
@@ -46,23 +46,23 @@ import {NavigateFunction} from "../../../hooks/dbRoute";
 import {
   createResultGridState,
   ResultGridState,
-} from "@edgedb/common/components/resultGrid";
-import LRU from "gel/dist/primitives/lru";
+} from "@dbsof/common/components/resultGrid";
+import LRU from "@dbsof/platform/client";
 import {Completer} from "../../../utils/completer";
 import {OutputMode} from "../../queryEditor/state";
-import {Language} from "gel/dist/ifaces";
+import {Language} from "@dbsof/platform/client";
 
 export const defaultItemHeight = 85;
 
 export enum ReplLang {
-  EdgeQL,
+  Query,
   SQL,
 }
 
 @model("Repl/HistoryItem")
 export class ReplHistoryItem extends Model({
   $modelId: idProp,
-  lang: prop<ReplLang>(ReplLang.EdgeQL),
+  lang: prop<ReplLang>(ReplLang.Query),
   query: prop<string>(),
   timestamp: prop<number>(),
   implicitLimit: prop<number | null>(null),
@@ -141,7 +141,7 @@ export class ReplHistoryItem extends Model({
   _inspectorState: InspectorState | null = null;
 
   @action
-  getInspectorState(data: EdgeDBSet) {
+  getInspectorState(data: ResultSet) {
     const cache = cachesCtx.get(this)!.inspector;
     let state = cache.get(this.$modelId);
     if (!state) {
@@ -162,7 +162,7 @@ export class ReplHistoryItem extends Model({
   }
 
   @action
-  getResultGridState(data: EdgeDBSet) {
+  getResultGridState(data: ResultSet) {
     const cache = cachesCtx.get(this)!.grid;
     let state = cache.get(this.$modelId);
     if (!state) {
@@ -176,7 +176,7 @@ export class ReplHistoryItem extends Model({
   _explainState: ExplainState | null = null;
 
   @action
-  getExplainState(data: EdgeDBSet) {
+  getExplainState(data: ResultSet) {
     const cache = cachesCtx.get(this)!.explain;
     let state = cache.get(this.$modelId);
     if (!state) {
@@ -223,7 +223,7 @@ export class Repl extends Model({
   }
 
   @observable
-  language = ReplLang.EdgeQL;
+  language = ReplLang.Query;
 
   @action
   setLanguage(lang: ReplLang) {
@@ -308,7 +308,7 @@ export class Repl extends Model({
     this.extendedViewerItem = item;
   }
 
-  resultDataCache = new LRU<string, Completer<EdgeDBSet | null>>({
+  resultDataCache = new LRU<string, Completer<ResultSet | null>>({
     capacity: 20,
   });
 
@@ -316,7 +316,7 @@ export class Repl extends Model({
   resultExplainCache = new LRU<string, ExplainState>({capacity: 20});
   resultGridCache = new LRU<string, ResultGridState>({capacity: 20});
 
-  getResultData(itemId: string): Completer<EdgeDBSet | null> {
+  getResultData(itemId: string): Completer<ResultSet | null> {
     let data = this.resultDataCache.get(itemId);
     if (!data) {
       data = new Completer(
@@ -475,8 +475,7 @@ export class Repl extends Model({
 
     dbState.setLoadingTab(Repl, true);
 
-    const lang =
-      this.language === ReplLang.SQL ? Language.SQL : Language.EDGEQL;
+    const lang = Language.SQL;
     let resultData: QueryResultData | undefined = undefined;
     let skipStoreHistoryItem = false;
     try {

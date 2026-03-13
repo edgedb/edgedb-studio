@@ -3,8 +3,8 @@ import {observer} from "mobx-react-lite";
 import styles from "./schemaGraph.module.scss";
 import {useSchemaState} from "../../state/provider";
 
-import cn from "@edgedb/common/utils/classNames";
-import {stripModuleName} from "@edgedb/common/utils/moduleNames";
+import cn from "@dbsof/common/utils/classNames";
+import {stripModuleName} from "@dbsof/common/utils/moduleNames";
 
 import {SchemaGraphNodeType, SchemaGraphNode} from "../../core/interfaces";
 

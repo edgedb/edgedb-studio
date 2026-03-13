@@ -1,0 +1,14 @@
+{
+  "latestBlogPost": {
+    "title": "Welcome to your new DBSOF UI",
+    "url": "https://example.com/blog/dbsof-ui",
+    "publishedTimestamp": 1711929600,
+    "imageUrl": "https://via.placeholder.com/600x300.png?text=DBSOF+UI",
+    "imageBrightness": 0.3
+  },
+  "latestUpdate": {
+    "title": "Kick-start your own infrastructure studio",
+    "url": "https://example.com/changelog/dbsof-ui"
+  },
+  "latestReleaseVersion": "1.0"
+}

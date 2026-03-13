@@ -1,10 +1,10 @@
 import {createContext, useContext, useEffect, useLayoutEffect} from "react";
 import {observer} from "mobx-react-lite";
 
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 
-import {InspectorRow} from "@edgedb/inspector";
-import inspectorStyles from "@edgedb/inspector/inspector.module.scss";
+import {InspectorRow} from "@dbsof/inspector";
+import inspectorStyles from "@dbsof/inspector/inspector.module.scss";
 
 import styles from "./dataInspector.module.scss";
 
@@ -35,19 +35,19 @@ import {PrimitiveType} from "../../components/dataEditor";
 import {DataEditor} from "../../components/dataEditor/editor";
 import {renderInvalidEditorValue} from "../../components/dataEditor/utils";
 
-import {ArrowRightIcon, ChevronDownIcon} from "@edgedb/common/newui";
+import {ArrowRightIcon, ChevronDownIcon} from "@dbsof/common/newui";
 
 import {
   DataGrid,
   GridContent,
   GridHeaders,
   HeaderResizeHandle,
-} from "@edgedb/common/components/dataGrid";
-import gridStyles from "@edgedb/common/components/dataGrid/dataGrid.module.scss";
-import {renderCellValue} from "@edgedb/common/components/dataGrid/renderUtils";
+} from "@dbsof/common/components/dataGrid";
+import gridStyles from "@dbsof/common/components/dataGrid/dataGrid.module.scss";
+import {renderCellValue} from "@dbsof/common/components/dataGrid/renderUtils";
 
-import {DefaultColumnWidth} from "@edgedb/common/components/dataGrid/state";
-import {calculateInitialColWidths} from "@edgedb/common/components/dataGrid/utils";
+import {DefaultColumnWidth} from "@dbsof/common/components/dataGrid/state";
+import {calculateInitialColWidths} from "@dbsof/common/components/dataGrid/utils";
 import {FieldConfigButton} from "./fieldConfig";
 
 const DataInspectorContext = createContext<{

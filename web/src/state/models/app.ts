@@ -1,19 +1,16 @@
 import {createContext, Model, model, prop} from "mobx-keystone";
 
-import {InstanceState} from "@edgedb/studio/state/instance";
+import {InstanceState} from "@dbsof/studio/state/instance";
+import {mockMode} from "@dbsof/platform/client";
 
-export const serverUrl = import.meta.env.DEV
-  ? import.meta.env.VITE_GEL_SERVER_URL
-    ? `http://${import.meta.env.VITE_GEL_SERVER_URL}`
-    : "http://localhost:5656"
-  : window.location.origin;
+export const serverUrl = "http://localhost:5757";
 
 const url = new URL(window.location.toString());
 
-const TOKEN_KEY = "edgedbAuthToken";
-const USERNAME_KEY = "edgedbAuthUsername";
+const TOKEN_KEY = "dbsofAuthToken";
+const USERNAME_KEY = "dbsofAuthUsername";
 
-let authToken: string | null = null;
+let authToken: string | null = mockMode ? "mock-token" : null;
 let authUsername: string | null = null;
 
 if (url.searchParams.has("authToken")) {
@@ -26,9 +23,16 @@ if (url.searchParams.has("authToken")) {
 } else {
   authToken = localStorage.getItem(TOKEN_KEY);
   authUsername = localStorage.getItem(USERNAME_KEY);
+
+  if (mockMode && !authToken) {
+    authToken = "mock-token";
+    authUsername = "demo";
+    localStorage.setItem(TOKEN_KEY, authToken);
+    localStorage.setItem(USERNAME_KEY, authUsername);
+  }
 }
 
-if (!authToken) {
+if (!authToken && !mockMode) {
   url.pathname = "/ui/_login";
   window.history.replaceState(null, "", url);
 }

@@ -5,8 +5,8 @@ import {CSSTransition} from "react-transition-group";
 import styles from "./schemaGraph.module.scss";
 import {useSchemaState} from "../../state/provider";
 
-import cn from "@edgedb/common/utils/classNames";
-import {useDragHandler, Position} from "@edgedb/common/hooks/useDragHandler";
+import cn from "@dbsof/common/utils/classNames";
+import {useDragHandler, Position} from "@dbsof/common/hooks/useDragHandler";
 
 import {SchemaGraphNode, SchemaGraphNodeType} from "../../core/interfaces";
 import {SchemaNodeStateInstance} from "../../state/graph";

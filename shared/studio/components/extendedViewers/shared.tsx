@@ -1,9 +1,9 @@
 import {PropsWithChildren, createContext, useContext} from "react";
 
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 
-import {CrossIcon} from "@edgedb/common/newui/icons";
-import {Button} from "@edgedb/common/newui";
+import {CrossIcon} from "@dbsof/common/newui/icons";
+import {Button} from "@dbsof/common/newui";
 
 import styles from "./shared.module.scss";
 

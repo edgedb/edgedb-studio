@@ -1,7 +1,7 @@
 import {useEffect, useRef} from "react";
 import {action, makeObservable, observable, runInAction} from "mobx";
 
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 
 import {
   EditorValue,

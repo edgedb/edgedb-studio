@@ -34,7 +34,7 @@ test.describe("queryEditor", () => {
       ).toHaveText("Hint: did you mean 'release_year'?");
     });
 
-    test("enter invalid query: EdgeQLSyntaxError", async ({page, uiClass}) => {
+    test("enter invalid query: SQLSyntaxError", async ({page, uiClass}) => {
       const editor = page.locator(".cm-content");
 
       await editor.fill("select Movie { title } filter .release_year = 2015)");
@@ -46,7 +46,7 @@ test.describe("queryEditor", () => {
 
       await expect(
         errorElement.locator(uiClass("queryeditor_errorName"))
-      ).toHaveText("EdgeQLSyntaxError");
+      ).toHaveText("SQLSyntaxError");
     });
 
     test("enter valid query, get results, copy and view them", async ({

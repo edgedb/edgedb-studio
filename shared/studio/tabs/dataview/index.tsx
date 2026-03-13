@@ -1,12 +1,12 @@
 import {useEffect, useMemo} from "react";
 import {observer} from "mobx-react-lite";
 
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 
 import styles from "./dataview.module.scss";
 
-import {useModal} from "@edgedb/common/hooks/useModal";
-import {Theme, useTheme} from "@edgedb/common/hooks/useTheme";
+import {useModal} from "@dbsof/common/hooks/useModal";
+import {Theme, useTheme} from "@dbsof/common/hooks/useTheme";
 import {
   Button,
   Select,
@@ -15,8 +15,8 @@ import {
   FilterIcon,
   CrossIcon,
   CheckIcon,
-} from "@edgedb/common/newui";
-import {Button as MobButton} from "@edgedb/common/ui/mobile";
+} from "@dbsof/common/newui";
+import {Button as MobButton} from "@dbsof/common/ui/mobile";
 
 import {useTabState, useDatabaseState} from "../../state";
 import {
@@ -26,7 +26,7 @@ import {
 import {DatabaseTabSpec} from "../../components/databasePage";
 import {useDBRouter} from "../../hooks/dbRoute";
 
-import {CodeEditor} from "@edgedb/code-editor";
+import {CodeEditor} from "@dbsof/code-editor";
 
 import DataInspectorTable from "./dataInspector";
 
@@ -36,8 +36,8 @@ import {ObjectTypeSelect} from "../../components/objectTypeSelect";
 
 import {BackArrowIcon} from "./icons";
 import {BackIcon, TabDataExplorerIcon, WarningIcon} from "../../icons";
-import {useIsMobile} from "@edgedb/common/hooks/useMobile";
-import {CloseButton} from "@edgedb/common/ui/mobile";
+import {useIsMobile} from "@dbsof/common/hooks/useMobile";
+import {CloseButton} from "@dbsof/common/ui/mobile";
 
 export const DataView = observer(function DataView() {
   const dbState = useDatabaseState();

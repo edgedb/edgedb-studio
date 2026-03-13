@@ -15,7 +15,7 @@ test.describe("repl", () => {
     const response = uiClass("repl_replHistoryItem");
 
     await expect(response.locator(uiClass("repl_historyPrompt"))).toHaveText(
-      "_test[edgeql]>"
+      "_test[query]>"
     );
     await expect(response.locator(uiClass("repl_code"))).toHaveText("\\help");
 

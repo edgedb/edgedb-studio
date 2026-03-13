@@ -12,11 +12,11 @@ import {
 import {observable} from "mobx";
 import {observer} from "mobx-react-lite";
 
-import cn from "@edgedb/common/utils/classNames";
-import {InstanceState} from "@edgedb/studio/state/instance";
-import {currentTimestamp} from "@edgedb/common/utils/relativeTime";
+import cn from "@dbsof/common/utils/classNames";
+import {InstanceState} from "@dbsof/studio/state/instance";
+import {currentTimestamp} from "@dbsof/common/utils/relativeTime";
 import {CustomScrollbars} from "../ui/customScrollbar";
-import CodeBlock from "@edgedb/common/ui/codeBlock";
+import CodeBlock from "@dbsof/common/ui/codeBlock";
 
 import {
   ArrowRightIcon,
@@ -30,7 +30,7 @@ import {
   WarningIcon,
   Button,
   InfoIcon,
-} from "@edgedb/common/newui";
+} from "@dbsof/common/newui";
 import {CopyButton} from "../newui/copyButton";
 import {PopupArrow} from "../newui/icons/other";
 
@@ -222,7 +222,7 @@ export const BranchGraph = observer(function BranchGraph({
                   })}
                   onClick={() => {
                     localStorage.removeItem(
-                      `edgedb-branch-graph-${instanceId}`
+                      `dbsof-branch-graph-${instanceId}`
                     );
                     setRefreshing(true);
                   }}

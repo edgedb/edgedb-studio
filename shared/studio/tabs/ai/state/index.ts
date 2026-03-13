@@ -18,7 +18,7 @@ import {
 import {connCtx, dbCtx} from "../../../state";
 import {Text} from "@codemirror/state";
 import {ChatParticipantRole, RAGRequest, SSEStream, runRAGQuery} from "./rag";
-import {SchemaObjectType} from "@edgedb/common/schemaData";
+import {SchemaObjectType} from "@dbsof/common/schemaData";
 import {
   storeAIPlaygroundChatItem,
   fetchAIPlaygroundChatHistory,
@@ -79,7 +79,7 @@ export class AIAdminState extends Model({
   showConfigPanel: prop(false).withSetter(),
 }) {
   onAttachedToRootStore() {
-    const configKey = `edgedbAIPlaygroundConfig-${instanceCtx.get(this)!
+    const configKey = `dbsofAIPlaygroundConfig-${instanceCtx.get(this)!
       .instanceId!}/${dbCtx.get(this)!.name}`;
 
     const configJSON = localStorage.getItem(configKey);

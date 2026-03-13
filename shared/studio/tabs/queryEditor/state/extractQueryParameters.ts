@@ -1,8 +1,8 @@
 import {SyntaxNode} from "@lezer/common";
 
-import {parser as edgeqlParser} from "@edgedb/lang-edgeql";
+import {parser as queryParser} from "@dbsof/lang-query";
 import {PostgreSQL, sql} from "@codemirror/lang-sql";
-import {KnownScalarTypes, SchemaScalarType} from "@edgedb/common/schemaData";
+import {KnownScalarTypes, SchemaScalarType} from "@dbsof/common/schemaData";
 
 import {getAllChildren, getNodeText} from "../../../utils/syntaxTree";
 import {
@@ -13,9 +13,9 @@ import {
   serializePrimitiveType,
 } from "../../../components/dataEditor/utils";
 import {Connection} from "../../../state/connection";
-import {Cardinality, Language} from "gel/dist/ifaces";
-import {ObjectCodec} from "gel/dist/codecs/object";
-import {ICodec} from "gel/dist/codecs/ifaces";
+import {Cardinality, Language} from "@dbsof/platform/client";
+import {ObjectCodec} from "@dbsof/platform/client";
+import {ICodec} from "@dbsof/platform/client";
 
 export type ResolvedParameter =
   | {
@@ -194,12 +194,12 @@ function resolveCastType(
   throw new Error("Invalid parameter cast");
 }
 
-export function extractEdgeQLQueryParameters(
+export function extractNativeQLQueryParameters(
   query: string,
   schemaScalars: Map<string, SchemaScalarType>
 ): Map<string, ResolvedParameter> | null {
   try {
-    const syntaxTree = edgeqlParser.parse(query);
+    const syntaxTree = queryParser.parse(query);
 
     const extractedParams: ResolvedParameter[] = getAllChildren(
       syntaxTree.topNode,

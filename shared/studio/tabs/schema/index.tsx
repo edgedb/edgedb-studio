@@ -1,10 +1,10 @@
 import {lazy, Suspense} from "react";
 import {observer} from "mobx-react-lite";
 
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 
-import SplitView from "@edgedb/common/ui/splitView";
-import SwitcherButton from "@edgedb/common/ui/switcherButton";
+import SplitView from "@dbsof/common/ui/splitView";
+import SwitcherButton from "@dbsof/common/ui/switcherButton";
 
 import styles from "./schema.module.scss";
 
@@ -21,8 +21,8 @@ import {
 } from "../../icons";
 
 import {SchemaTextView} from "./textView";
-import {useIsMobile} from "@edgedb/common/hooks/useMobile";
-import {LabelsSwitch, switchState} from "@edgedb/common/ui/switch";
+import {useIsMobile} from "@dbsof/common/hooks/useMobile";
+import {LabelsSwitch, switchState} from "@dbsof/common/ui/switch";
 
 const _SchemaGraphView = lazy(() => import("./graphView"));
 

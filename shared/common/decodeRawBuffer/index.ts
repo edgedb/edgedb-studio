@@ -1,7 +1,7 @@
-import {_CodecsRegistry, _ReadBuffer, _ICodec, Options} from "gel";
-import type {ProtocolVersion} from "gel/dist/ifaces";
+import {_CodecsRegistry, _ReadBuffer, _ICodec, Options} from "@dbsof/platform/client";
+import type {ProtocolVersion} from "@dbsof/platform/client";
 
-export type EdgeDBSet = Array<any> & {_codec: _ICodec};
+export type ResultSet = Array<any> & {_codec: _ICodec};
 
 export function decode(
   registry: InstanceType<typeof _CodecsRegistry>,
@@ -9,13 +9,13 @@ export function decode(
   resultBuf: Uint8Array,
   options: Options,
   protocolVersion: ProtocolVersion = [0, 10]
-): EdgeDBSet | null {
-  let result: EdgeDBSet | null = null;
+): ResultSet | null {
+  let result: ResultSet | null = null;
 
   if (outCodecBuf.length) {
     const codec = registry.buildCodec(outCodecBuf, protocolVersion);
 
-    result = new Array() as EdgeDBSet;
+    result = new Array() as ResultSet;
 
     const buf = new _ReadBuffer(resultBuf);
     const codecReadBuf = _ReadBuffer.alloc();

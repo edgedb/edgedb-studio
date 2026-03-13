@@ -3,12 +3,12 @@ import {observer} from "mobx-react-lite";
 
 import {
   Schema as SchemaState,
-  SchemaGraph,
+  NodeGraph,
   schemaContext,
   useDebugState,
   DebugControls,
-  SchemaMinimap,
-} from "@edgedb/schema-graph";
+  NodeGraphMinimap,
+} from "@dbsof/node-graph";
 
 import type {Schema} from "./state";
 
@@ -38,8 +38,8 @@ const SchemaGraphView = observer(function SchemaGraphView({
           schemaState={state.schemaState}
         />
       ) : null}
-      <SchemaGraph debug={debugState[0]} />
-      <SchemaMinimap className={styles.minimap} />
+      <NodeGraph debug={debugState[0]} />
+      <NodeGraphMinimap className={styles.minimap} />
     </schemaContext.Provider>
   ) : null;
 });

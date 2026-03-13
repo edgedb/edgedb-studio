@@ -8,16 +8,16 @@ import {
 } from "react";
 import {observer} from "mobx-react-lite";
 
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 import {
   SchemaExtension,
   SchemaObjectType,
   SchemaType,
-} from "@edgedb/common/schemaData";
+} from "@dbsof/common/schemaData";
 
 import styles from "../textView.module.scss";
 
-import {highlightString as _highlightString} from "@edgedb/common/utils/fuzzysortHighlight";
+import {highlightString as _highlightString} from "@dbsof/common/utils/fuzzysortHighlight";
 import {ArrowRight, ChevronDownIcon, CopyIcon} from "../../../icons";
 
 import {

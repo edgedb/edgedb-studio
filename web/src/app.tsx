@@ -3,7 +3,7 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 
 import "./fonts/include.scss";
 import styles from "./app.module.scss";
-import themeStyles from "@edgedb/common/newui/theme.module.scss";
+import themeStyles from "@dbsof/common/newui/theme.module.scss";
 
 import "@fontsource-variable/roboto-flex/index.css";
 import "@fontsource-variable/roboto-mono/index.css";
@@ -11,11 +11,11 @@ import "@fontsource-variable/roboto-mono/index.css";
 import appState from "./state/store";
 import {appContext} from "./state/providers";
 
-import {GlobalDragCursorProvider} from "@edgedb/common/hooks/globalDragCursor";
-import {ThemeProvider} from "@edgedb/common/hooks/useTheme";
-import {ModalProvider} from "@edgedb/common/hooks/useModal";
-import {HeaderNavProvider} from "@edgedb/studio/components/headerNav";
-import {GlobalTooltipsProvider} from "@edgedb/common/hooks/useTooltips";
+import {GlobalDragCursorProvider} from "@dbsof/common/hooks/globalDragCursor";
+import {ThemeProvider} from "@dbsof/common/hooks/useTheme";
+import {ModalProvider} from "@dbsof/common/hooks/useModal";
+import {HeaderNavProvider} from "@dbsof/studio/components/headerNav";
+import {GlobalTooltipsProvider} from "@dbsof/common/hooks/useTooltips";
 
 import {Header} from "./components/header";
 import Main from "./components/main";

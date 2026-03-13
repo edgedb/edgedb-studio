@@ -7,10 +7,10 @@ import {useTabState} from "../../state";
 
 import {AuthAdminState, _providersInfo} from "./state";
 
-import {CustomScrollbars} from "@edgedb/common/ui/customScrollbar";
+import {CustomScrollbars} from "@dbsof/common/ui/customScrollbar";
 import {WebhooksTab} from "./webhooks";
 
-import {PanelTabs} from "@edgedb/common/newui/panelTabs";
+import {PanelTabs} from "@dbsof/common/newui/panelTabs";
 import {ConfigTab} from "./config";
 import {SMTPConfigTab} from "./smtp";
 import {ProvidersTab} from "./providers";

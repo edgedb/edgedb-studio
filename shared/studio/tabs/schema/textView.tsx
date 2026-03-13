@@ -10,10 +10,10 @@ import {
 import {observer} from "mobx-react-lite";
 import {VariableSizeList as List, ListChildComponentProps} from "react-window";
 
-import cn from "@edgedb/common/utils/classNames";
-import {useResize} from "@edgedb/common/hooks/useResize";
-import {useInitialValue} from "@edgedb/common/hooks/useInitialValue";
-import {Select, CrossIcon} from "@edgedb/common/newui";
+import cn from "@dbsof/common/utils/classNames";
+import {useResize} from "@dbsof/common/hooks/useResize";
+import {useInitialValue} from "@dbsof/common/hooks/useInitialValue";
+import {Select, CrossIcon} from "@dbsof/common/newui";
 
 import {useTabState} from "../../state";
 
@@ -30,9 +30,9 @@ import {
 import {Schema} from "./state";
 import {renderers} from "./renderers";
 import {ModuleHeaders} from "./renderers/module";
-import {CustomScrollbars} from "@edgedb/common/ui/customScrollbar";
+import {CustomScrollbars} from "@dbsof/common/ui/customScrollbar";
 import {useDBRouter} from "../../hooks/dbRoute";
-import {useIsMobile} from "@edgedb/common/hooks/useMobile";
+import {useIsMobile} from "@dbsof/common/hooks/useMobile";
 
 const typeFilters = Object.values(TypeFilter).filter(
   (v) => typeof v === "number"

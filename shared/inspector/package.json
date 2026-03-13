@@ -1,10 +1,10 @@
 {
-  "name": "@edgedb/inspector",
+  "name": "@dbsof/inspector",
   "private": true,
   "version": "0.0.0",
   "license": "UNLICENSED",
   "peerDependencies": {
-    "gel": "^2.0.2",
+    "@dbsof/platform": "workspace:*",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },

@@ -1,8 +1,8 @@
 "use client";
 
-import {SchemaGlobal, SchemaType} from "@edgedb/common/schemaData";
-import cn from "@edgedb/common/utils/classNames";
-import {renderValue} from "@edgedb/inspector/buildScalar";
+import {SchemaGlobal, SchemaType} from "@dbsof/common/schemaData";
+import cn from "@dbsof/common/utils/classNames";
+import {renderValue} from "@dbsof/inspector/buildScalar";
 import {observer} from "mobx-react-lite";
 import {Fragment, PropsWithChildren, useEffect, useRef, useState} from "react";
 import {
@@ -14,20 +14,20 @@ import {
 import {useDatabaseState} from "../../state";
 import {queryOptions, SessionState} from "../../state/sessionState";
 import {getInputComponent, InputValidator} from "../dataEditor";
-import inspectorStyles from "@edgedb/inspector/inspector.module.scss";
+import inspectorStyles from "@dbsof/inspector/inspector.module.scss";
 
 import styles from "./sessionState.module.scss";
 import {createPortal} from "react-dom";
-import {useResize} from "@edgedb/common/hooks/useResize";
+import {useResize} from "@dbsof/common/hooks/useResize";
 import {ButtonTabArrow, SettingsIcon} from "./icons";
-import {ToggleSwitch} from "@edgedb/common/ui/toggleSwitch";
+import {ToggleSwitch} from "@dbsof/common/ui/toggleSwitch";
 import fuzzysort from "fuzzysort";
-import {highlightString} from "@edgedb/common/utils/fuzzysortHighlight";
-import {CustomScrollbars} from "@edgedb/common/ui/customScrollbar";
+import {highlightString} from "@dbsof/common/utils/fuzzysortHighlight";
+import {CustomScrollbars} from "@dbsof/common/ui/customScrollbar";
 import {TabSep} from "../headerNav";
 import {PrimitiveType} from "../dataEditor/utils";
-import {useIsMobile} from "@edgedb/common/hooks/useMobile";
-import {CloseButton} from "@edgedb/common/ui/mobile";
+import {useIsMobile} from "@dbsof/common/hooks/useMobile";
+import {CloseButton} from "@dbsof/common/ui/mobile";
 
 export function SessionStateControls() {
   return <div id="sessionStateControls" />;

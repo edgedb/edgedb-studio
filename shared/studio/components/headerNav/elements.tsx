@@ -1,10 +1,10 @@
 import {Fragment, PropsWithChildren, useEffect, useRef} from "react";
 
-import cn from "@edgedb/common/utils/classNames";
-import Spinner from "@edgedb/common/ui/spinner";
-import {CheckIcon, DropdownIcon} from "@edgedb/common/ui/icons";
+import cn from "@dbsof/common/utils/classNames";
+import Spinner from "@dbsof/common/ui/spinner";
+import {CheckIcon, DropdownIcon} from "@dbsof/common/ui/icons";
 import styles from "./headerNav.module.scss";
-import {useTooltips} from "@edgedb/common/hooks/useTooltips";
+import {useTooltips} from "@dbsof/common/hooks/useTooltips";
 
 export interface HeaderNavProps {
   icon: JSX.Element;

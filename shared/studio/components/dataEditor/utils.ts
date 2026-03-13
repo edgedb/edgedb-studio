@@ -1,10 +1,10 @@
-import {MultiRange, Range} from "gel";
+import {MultiRange, Range} from "@dbsof/platform/client";
 
-import {SchemaScalarType} from "@edgedb/common/schemaData";
-import {assertNever} from "@edgedb/common/utils/assertNever";
+import {SchemaScalarType} from "@dbsof/common/schemaData";
+import {assertNever} from "@dbsof/common/utils/assertNever";
 
 import {parsers} from "./parsers";
-import {scalarItemToString} from "@edgedb/common/utils/renderJsonResult";
+import {scalarItemToString} from "@dbsof/common/utils/renderJsonResult";
 
 export interface EditorArrayType {
   schemaType: "Array";

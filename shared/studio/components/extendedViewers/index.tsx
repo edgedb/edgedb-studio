@@ -1,12 +1,12 @@
 import {lazy, Suspense} from "react";
 
-import {Item, ItemType} from "@edgedb/inspector/buildItem";
+import {Item, ItemType} from "@dbsof/inspector/buildItem";
 import {JsonViewer} from "./jsonViewer";
 import {TextViewer} from "./textViewer";
 
 import styles from "./shared.module.scss";
 import {HeaderBar, ExtendedViewerContext} from "./shared";
-import Spinner from "@edgedb/common/ui/spinner";
+import Spinner from "@dbsof/common/ui/spinner";
 
 export {ExtendedViewerContext};
 

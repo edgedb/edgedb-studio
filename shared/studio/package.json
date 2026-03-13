@@ -1,5 +1,5 @@
 {
-  "name": "@edgedb/studio",
+  "name": "@dbsof/studio",
   "version": "0.0.0",
   "private": true,
   "dependencies": {
@@ -7,18 +7,16 @@
     "@codemirror/lang-json": "^6.0.0",
     "@codemirror/lang-sql": "^6.8.0",
     "@codemirror/lint": "^6.0.0",
-    "@edgedb/code-editor": "workspace:*",
-    "@edgedb/common": "workspace:*",
-    "@edgedb/inspector": "workspace:*",
-    "@edgedb/schema-graph": "workspace:*",
+    "@dbsof/code-editor": "workspace:*",
+    "@dbsof/common": "workspace:*",
+    "@dbsof/inspector": "workspace:*",
+    "@dbsof/node-graph": "workspace:*",
     "@fontsource-variable/roboto-flex": "^5.1.0",
     "@fontsource-variable/roboto-mono": "^5.1.0",
     "@radix-ui/react-tooltip": "^1.0.5",
     "@sass-fairy/url": "^1.0.1",
     "@types/react-window": "^1.8.8",
-    "codemirror-graphql": "^1.3.0",
     "fuzzysort": "^2.0.1",
-    "graphql": "^16.5.0",
     "idb": "^7.0.1",
     "maplibre-gl": "^4.5.2",
     "mobx": "^6.5.0",
@@ -31,7 +29,7 @@
     "react-window": "^1.8.10"
   },
   "peerDependencies": {
-    "gel": "^2.0.2",
+    "@dbsof/platform": "workspace:*",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },

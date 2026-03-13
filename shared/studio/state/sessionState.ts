@@ -1,4 +1,4 @@
-import {SchemaGlobal, SchemaType} from "@edgedb/common/schemaData";
+import {SchemaGlobal, SchemaType} from "@dbsof/common/schemaData";
 import fuzzysort from "fuzzysort";
 import {action, computed, observable, runInAction, when} from "mobx";
 import {
@@ -111,7 +111,7 @@ export class SessionState extends Model({
       try {
         const dbState = dbCtx.get(this)!;
         const barOpenState = new Set(
-          JSON.parse(localStorage.getItem("edgedbStudioSessionBar") ?? "[]")
+          JSON.parse(localStorage.getItem("dbsofStudioSessionBar") ?? "[]")
         );
         if (open) {
           barOpenState.add(dbState.name);
@@ -119,7 +119,7 @@ export class SessionState extends Model({
           barOpenState.delete(dbState.name);
         }
         localStorage.setItem(
-          "edgedbStudioSessionBar",
+          "dbsofStudioSessionBar",
           JSON.stringify([...barOpenState.values()])
         );
       } catch (e) {
@@ -161,7 +161,7 @@ export class SessionState extends Model({
     const dbState = dbCtx.get(this)!;
     try {
       const barOpenState = new Set(
-        JSON.parse(localStorage.getItem("edgedbStudioSessionBar") ?? "[]")
+        JSON.parse(localStorage.getItem("dbsofStudioSessionBar") ?? "[]")
       );
       this.setBarOpen(barOpenState.has(dbState.name), false);
     } catch (e) {
@@ -172,7 +172,6 @@ export class SessionState extends Model({
   }
 
   get allowedConfigNames(): (name: string) => boolean {
-    // https://github.com/geldata/rfcs/blob/master/text/1029-rbac.rst#session-configuration-permissions
     const dbState = dbCtx.get(this)!;
     const role = dbState.connection?.config.authProvider.getUserRole?.();
     if (!role || role.is_superuser) {

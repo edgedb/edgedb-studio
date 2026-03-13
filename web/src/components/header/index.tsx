@@ -1,13 +1,13 @@
 import {observer} from "mobx-react-lite";
 
-import {HeaderTabs} from "@edgedb/studio/components/headerNav";
+import {HeaderTabs} from "@dbsof/studio/components/headerNav";
 
-import {ThemeSwitcher} from "@edgedb/common/ui/themeSwitcher";
-import {UserMenu} from "@edgedb/common/newui/userMenu";
-import {UserIcon} from "@edgedb/common/newui";
-import cn from "@edgedb/common/utils/classNames";
+import {ThemeSwitcher} from "@dbsof/common/ui/themeSwitcher";
+import {UserMenu} from "@dbsof/common/newui/userMenu";
+import {UserIcon} from "@dbsof/common/newui";
+import cn from "@dbsof/common/utils/classNames";
 
-import {LogoLocal} from "@edgedb/common/ui/icons/logo";
+import {LogoLocal} from "@dbsof/common/ui/icons/logo";
 
 import appState from "../../state/store";
 import {clearAuthToken} from "../../state/models/app";

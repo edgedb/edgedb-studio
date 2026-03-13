@@ -2,10 +2,10 @@ import {memo, useEffect, useMemo, useRef} from "react";
 import {Text, Compartment} from "@codemirror/state";
 import {EditorView} from "@codemirror/view";
 
-import {CodeEditorRef, createCodeEditor} from "@edgedb/code-editor";
-import {Theme, useTheme} from "@edgedb/common/hooks/useTheme";
-import {usePersistedState} from "@edgedb/common/hooks/usePersistedState";
-import {CustomScrollbars} from "@edgedb/common/ui/customScrollbar";
+import {CodeEditorRef, createCodeEditor} from "@dbsof/code-editor";
+import {Theme, useTheme} from "@dbsof/common/hooks/useTheme";
+import {usePersistedState} from "@dbsof/common/hooks/usePersistedState";
+import {CustomScrollbars} from "@dbsof/common/ui/customScrollbar";
 
 import styles from "./textViewer.module.scss";
 import {ToggleButton, HeaderBar} from "../shared";
@@ -28,7 +28,7 @@ export const TextViewer = memo(function TextViewer({data}: TextViewerProps) {
   const editorRef = useRef<CodeEditorRef>(null);
 
   const [state, setState] = usePersistedState(
-    "edgedbStudioExtendedTextViewer",
+    "dbsofStudioExtendedTextViewer",
     {linewrap: false, renderWhitespace: false}
   );
 

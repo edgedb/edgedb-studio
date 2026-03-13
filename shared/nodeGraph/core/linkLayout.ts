@@ -1,4 +1,4 @@
-import * as debug from "@edgedb/common/utils/debug";
+import * as debug from "@dbsof/common/utils/debug";
 import {layoutLinkNodes} from "./grid";
 import {
   SchemaGraphNodeObject,

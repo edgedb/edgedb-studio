@@ -3,11 +3,11 @@ import {observer} from "mobx-react-lite";
 
 import "maplibre-gl/dist/maplibre-gl.css";
 
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 
 import styles from "./postgisViewer.module.scss";
-import {useTheme} from "@edgedb/common/hooks/useTheme";
-import {Geometry, Box2D, Box3D} from "gel/dist/datatypes/postgis";
+import {useTheme} from "@dbsof/common/hooks/useTheme";
+import {Geometry, Box2D, Box3D} from "@dbsof/platform/client";
 import {
   createPostgisEditorState,
   MAX_M_RADIUS,
@@ -19,10 +19,10 @@ import {WKTRenderer} from "./wktRenderers";
 import {FloatingToolbar} from "./toolbar";
 import {ExtendedViewerContext} from "../shared";
 import {CloseIcon} from "./icons";
-import {Checkbox, CheckIcon, SettingsIcon} from "@edgedb/common/newui";
+import {Checkbox, CheckIcon, SettingsIcon} from "@dbsof/common/newui";
 import {convertFromEditableGeometry} from "./editableGeom/convert";
 import {Box} from "./editableGeom/types";
-import {useGlobalDragCursor} from "@edgedb/common/hooks/globalDragCursor";
+import {useGlobalDragCursor} from "@dbsof/common/hooks/globalDragCursor";
 
 export interface PostgisViewerProps {
   data: Geometry | Box2D | Box3D | null;

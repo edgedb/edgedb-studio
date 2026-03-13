@@ -1,7 +1,7 @@
 import {execFileSync} from "child_process";
 import {writeFileSync} from "fs";
 
-const stdout = execFileSync("edb", ["gen-meta-grammars", "edgeql"], {
+const stdout = execFileSync("backend-cli", ["gen-meta-grammars", "query"], {
   encoding: "utf8",
 });
 

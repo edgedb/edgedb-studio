@@ -5,8 +5,8 @@ import {
   SchemaAccessPolicy,
   SchemaObjectType,
   SchemaTrigger,
-} from "@edgedb/common/schemaData";
-import CodeBlock from "@edgedb/common/ui/codeBlock";
+} from "@dbsof/common/schemaData";
+import CodeBlock from "@dbsof/common/ui/codeBlock";
 
 import {SearchMatches} from "../state/textView";
 

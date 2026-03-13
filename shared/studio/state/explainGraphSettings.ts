@@ -11,7 +11,7 @@ export enum graphUnit {
   cost = "cost",
 }
 
-const userGraphTypeStorageKey = "edgedbUserGraphTypeChoice";
+const userGraphTypeStorageKey = "dbsofUserGraphTypeChoice";
 
 @model("ExplainGraphSettings")
 export class ExplainGraphSettings extends Model({

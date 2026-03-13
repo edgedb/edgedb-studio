@@ -15,5 +15,5 @@
 }
 
 @each $weight in 300, 400, 500, 600, 700 {
-  @include font("EdgeDB", "edgedb", $weight);
+  @include font("DBSOF", "dbsof", $weight);
 }

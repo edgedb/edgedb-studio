@@ -1,8 +1,8 @@
 import {Fragment} from "react";
 import {observer} from "mobx-react-lite";
 
-import {SchemaFunction, SchemaParam} from "@edgedb/common/schemaData";
-import CodeBlock from "@edgedb/common/ui/codeBlock";
+import {SchemaFunction, SchemaParam} from "@dbsof/common/schemaData";
+import CodeBlock from "@dbsof/common/ui/codeBlock";
 
 import {
   Arrow,
@@ -21,7 +21,7 @@ import {SearchMatches} from "../state/textView";
 
 import styles from "../textView.module.scss";
 import {AnnotationRenderer, annotationToSDL} from "./annotation";
-import {paramToSDL} from "@edgedb/common/schemaData/utils";
+import {paramToSDL} from "@dbsof/common/schemaData/utils";
 
 export function SchemaParamRenderer({
   param,
@@ -67,7 +67,7 @@ export const FunctionTypeRenderer = observer(function FunctionTypeRenderer({
           <span className={styles.builtinFunc}>builtin function</span>
           <Punc>{")"}</Punc>
         </>
-      ) : type.language === "EdgeQL" ? (
+      ) : type.language === "NativeQL" ? (
         <>
           <Punc>{"("}</Punc>
           <CodeBlock code={type.body ?? ""} inline />
@@ -75,7 +75,8 @@ export const FunctionTypeRenderer = observer(function FunctionTypeRenderer({
         </>
       ) : (
         <>
-          {type.language} <Str>{type.body}</Str>
+          {type.language === "NativeQL" ? "SQL" : type.language}{" "}
+          <Str>{type.body}</Str>
         </>
       )}
       <Punc>{";"}</Punc>
@@ -166,9 +167,11 @@ export function functionToSDL(type: SchemaFunction) {
   const funcBody = `using ${
     type.language === "builtin"
       ? "(builtin function)"
-      : type.language === "EdgeQL"
+      : type.language === "NativeQL"
       ? `(${type.body})`
-      : `${type.language} '${type.body}'`
+      : `${type.language === "NativeQL" ? "SQL" : type.language} '${
+          type.body
+        }'`
   };`;
 
   return `function ${type.name}(${

@@ -4,7 +4,7 @@ import {
   SchemaAbstractAnnotation,
   SchemaAnnotation,
   splitName,
-} from "@edgedb/common/schemaData";
+} from "@dbsof/common/schemaData";
 
 import {
   CollapseArrow,

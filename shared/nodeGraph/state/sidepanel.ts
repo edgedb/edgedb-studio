@@ -4,7 +4,7 @@ import {
   SchemaScalarType,
   SchemaFunction,
   SchemaConstraint,
-} from "@edgedb/common/schemaData";
+} from "@dbsof/common/schemaData";
 
 import Fuse from "fuse.js";
 

@@ -12,9 +12,13 @@ import {
   ModelCreationData,
   getTypeInfo,
   ModelTypeInfo,
+  modelFlow,
+  _async,
+  _await,
 } from "mobx-keystone";
 
-import {DuplicateDatabaseDefinitionError} from "gel";
+import {DuplicateDatabaseDefinitionError} from "@dbsof/platform/client";
+import {mockMode} from "@dbsof/platform/client";
 
 import {cleanupOldSchemaDataForInstance} from "../idbStore";
 
@@ -47,6 +51,26 @@ interface DatabaseInfo {
   name: string;
   last_migration?: string | null;
 }
+
+const mockInstanceInfo = {
+  id: "demo",
+  instanceName: "Demo Instance",
+  version: {major: 1, minor: 0},
+  databases: [
+    {name: "main", last_migration: "0001-demo"},
+    {name: "playground", last_migration: "0001-demo"},
+  ],
+  currentRole: "demo",
+  isSuperuser: true,
+  permissions: ["all"],
+} satisfies {
+  instanceName: string;
+  version: {major: number; minor: number};
+  databases: DatabaseInfo[];
+  currentRole: string;
+  isSuperuser: boolean;
+  permissions: string[];
+};
 
 @model("InstanceState")
 export class InstanceState extends Model({
@@ -99,7 +123,7 @@ export class InstanceState extends Model({
     single?: false
   ): Promise<T[] | null>;
   private async _sysConnFetch(query: string, single = false) {
-    const data = (await this.getConnection("__edgedbsys__").query(query))
+    const data = (await this.getConnection("__system__").query(query))
       .result;
     return data && single ? data[0] ?? null : data;
   }
@@ -115,28 +139,57 @@ export class InstanceState extends Model({
         }`;
   }
 
-  async fetchInstanceInfo() {
-    const data = (await this._sysConnFetch<{
-      instanceName: string;
-      version: ServerVersion;
-      databases: DatabaseInfo[];
-      currentRole: string;
-      isSuperuser: boolean;
-      permissions: string[];
-    }>(
-      `
-      select {
-        instanceName := sys::get_instance_name(),
-        version := sys::get_version(),
-        databases := ${this.databasesQuery},
-        currentRole := global sys::current_role,
-        isSuperuser := global sys::perm::superuser,
-        permissions := global sys::current_permissions,
-      }`,
-      true
-    ))!;
+  @modelFlow
+  fetchInstanceInfo = _async(function* (this: InstanceState) {
+    let data:
+      | {
+          id?: string;
+          instanceName: string;
+          version: ServerVersion;
+          databases: DatabaseInfo[];
+          currentRole: string;
+          isSuperuser: boolean;
+          permissions: string[];
+        }
+      | null = null;
+
+    try {
+      const res = yield* _await(fetch(`${this.serverUrl}/instances`));
+      const instances: {id: string; name: string}[] = yield* _await(res.json());
+      const first = instances[0];
+      const dbRes = yield* _await(
+        fetch(
+          `${this.serverUrl}/instances/${encodeURIComponent(first.id)}/databases`
+        )
+      );
+      const databases = yield* _await(dbRes.json());
+      data = {
+        id: first?.id,
+        instanceName: first?.name ?? "local",
+        version: {major: 1, minor: 0},
+        databases,
+        currentRole: "default",
+        isSuperuser: true,
+        permissions: [],
+      };
+    } catch (err) {
+      console.error("Failed to fetch instance info", err);
+    }
+
+    if (!data) {
+      data = mockMode ? mockInstanceInfo : null;
+    }
+
+    if (!data) {
+      return;
+    }
 
     runInAction(() => {
+      if (data.id) {
+        this._instanceId = data.id;
+      } else if (!this._instanceId && mockMode) {
+        this._instanceId = mockInstanceInfo.id;
+      }
       this.instanceName = data.instanceName ?? "_localdev";
       this.serverVersion = data.version;
       this.databases = data.databases;
@@ -146,19 +199,35 @@ export class InstanceState extends Model({
     });
 
     cleanupOldSchemaDataForInstance(this.instanceId!, this.databaseNames!);
-  }
+  });
 
-  async fetchDatabaseInfo() {
-    const data = await this._sysConnFetch<DatabaseInfo>(
-      `select ${this.databasesQuery}`
-    );
+  @modelFlow
+  fetchDatabaseInfo = _async(function* (this: InstanceState) {
+    let data: DatabaseInfo[] | null = null;
+    try {
+      const res = yield* _await(
+        fetch(
+          `${this.serverUrl}/instances/${encodeURIComponent(
+            this._instanceId ?? this.instanceId ?? "default"
+          )}/databases`
+        )
+      );
+      data = yield* _await(res.json());
+    } catch (err) {
+      console.error("Failed to fetch databases", err);
+    }
+    if (!data) {
+      data = mockMode ? mockInstanceInfo.databases : null;
+    }
 
-    runInAction(() => {
-      this.databases = data;
-    });
+    if (data) {
+      runInAction(() => {
+        this.databases = data;
+      });
 
-    cleanupOldSchemaDataForInstance(this.instanceId!, this.databaseNames!);
-  }
+      cleanupOldSchemaDataForInstance(this.instanceId!, this.databaseNames!);
+    }
+  });
 
   onInit() {
     instanceCtx.set(this, this);
@@ -167,13 +236,15 @@ export class InstanceState extends Model({
       () =>
         this.defaultConnection === null && (this.databases?.length ?? 0) > 0,
       () => {
-        this.defaultConnection = this.getConnection(this.databases![0].name);
+        runInAction(() => {
+          this.defaultConnection = this.getConnection(this.databases![0].name);
+        });
       }
     );
 
     return reaction(
       () => [this.serverUrl, this.currentRole, this.serverVersion],
-      () => (this._connections = new Map())
+      () => runInAction(() => (this._connections = new Map()))
     );
   }
 
@@ -185,17 +256,16 @@ export class InstanceState extends Model({
         {
           serverUrl: this.serverUrl,
           database: dbName,
+          instanceId: this.instanceId ?? "default",
           authProvider: {
             ...this._authProvider,
             getAuthUser: () =>
               this._authProvider.getAuthUser?.() ??
               this.currentRole ??
-              "edgedb",
+              "default",
             getUserRole: () => this.userRole,
           },
-        },
-        this.serverVersion,
-        sessionState
+        }
       );
       if (!sessionState) {
         this._connections.set(dbName, conn);
@@ -239,6 +309,18 @@ export class InstanceState extends Model({
   @observable creatingExampleDB = false;
 
   async createExampleDatabase(exampleSchema: Promise<string>) {
+    if (mockMode) {
+      const existing = this.databases ?? [];
+      if (!existing.find((db) => db.name === "_example")) {
+        runInAction(() => {
+          this.databases = [
+            ...existing,
+            {name: "_example", last_migration: null},
+          ];
+        });
+      }
+      return;
+    }
     runInAction(() => (this.creatingExampleDB = true));
     try {
       const schemaScript = await exampleSchema;

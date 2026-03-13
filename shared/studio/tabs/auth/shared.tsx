@@ -1,14 +1,14 @@
 import {observer} from "mobx-react-lite";
 
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 
-import {Button, WarningIcon} from "@edgedb/common/newui";
+import {Button, WarningIcon} from "@dbsof/common/newui";
 
 import {AbstractDraftConfig} from "./state";
 
 import styles from "./authAdmin.module.scss";
 import {PropsWithChildren} from "react";
-import {LoadingSkeleton} from "@edgedb/common/newui/loadingSkeleton";
+import {LoadingSkeleton} from "@dbsof/common/newui/loadingSkeleton";
 
 export const secretPlaceholder = "".padStart(32, "•");
 

@@ -1,4 +1,4 @@
-import * as PostGIS from "gel/dist/datatypes/postgis";
+import * as PostGIS from "@dbsof/platform/client";
 import {
   Geometry,
   Point,
@@ -10,7 +10,7 @@ import {
   CurvePolygon,
   Box,
 } from "./types";
-import {assertNever} from "@edgedb/common/utils/assertNever";
+import {assertNever} from "@dbsof/common/utils/assertNever";
 
 export function convertToEditableGeometry(
   geom: PostGIS.Geometry | PostGIS.Box2D | PostGIS.Box3D

@@ -1,7 +1,7 @@
 import {PropsWithChildren, useEffect, useRef, useState} from "react";
 
-import cn from "@edgedb/common/utils/classNames";
-import {ChevronDownIcon} from "@edgedb/common/newui";
+import cn from "@dbsof/common/utils/classNames";
+import {ChevronDownIcon} from "@dbsof/common/newui";
 
 import styles from "./horizontalCardList.module.scss";
 

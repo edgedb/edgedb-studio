@@ -6,7 +6,7 @@ import {
   getParentOfType,
   Instance,
 } from "mobx-state-tree";
-import * as debug from "@edgedb/common/utils/debug";
+import * as debug from "@dbsof/common/utils/debug";
 import {Schema, SchemaObject} from ".";
 import {
   SchemaGraphNode,
@@ -30,7 +30,7 @@ import {
   getRoundedPathFromRoute,
   focusedLayout,
 } from "../core";
-import {Ease, easings} from "@edgedb/common/utils/easing";
+import {Ease, easings} from "@dbsof/common/utils/easing";
 
 export const SchemaNodeState = types
   .model("NodeState", {

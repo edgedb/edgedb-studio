@@ -1,10 +1,10 @@
-import {ICodec} from "gel/dist/codecs/ifaces";
-import {ObjectCodec} from "gel/dist/codecs/object";
-import {SetCodec} from "gel/dist/codecs/set";
+import {ICodec} from "@dbsof/platform/client";
+import {ObjectCodec} from "@dbsof/platform/client";
+import {SetCodec} from "@dbsof/platform/client";
 import {DataGridState} from "../dataGrid/state";
 import {assertNever} from "../../utils/assertNever";
-import {NamedTupleCodec} from "gel/dist/codecs/namedtuple";
-import {RecordCodec} from "gel/dist/codecs/record";
+import {NamedTupleCodec} from "@dbsof/platform/client";
+import {RecordCodec} from "@dbsof/platform/client";
 
 export function createResultGridState(
   codec: ICodec,

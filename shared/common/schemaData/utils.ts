@@ -28,17 +28,17 @@ export function paramToSDL(param: SchemaParam) {
 
 const versionStages = ["dev", "alpha", "beta", "rc", "final"] as const;
 
-export type EdgeDBVersion = [
+export type SchemaVersion = [
   number,
   number,
   (typeof versionStages)[number],
   number
 ];
-export type PartialEdgeDBVersion = [number, number];
+export type PartialSchemaVersion = [number, number];
 
 export function versionGTE(
-  a: EdgeDBVersion,
-  b: EdgeDBVersion | PartialEdgeDBVersion
+  a: SchemaVersion,
+  b: SchemaVersion | PartialSchemaVersion
 ) {
   if (a[0] === b[0]) {
     if (a[1] === b[1] && b[2]) {

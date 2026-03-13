@@ -1,9 +1,9 @@
 {
-  "name": "@edgedb/lang-edgeql",
+  "name": "@dbsof/lang-query",
   "private": true,
   "version": "0.0.0",
   "license": "UNLICENSED",
-  "main": "./edgeql.ts",
+  "main": "./query.ts",
   "type": "module",
   "scripts": {
     "generate": "lezer-generator lang.grammar -o lang.js",

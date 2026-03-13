@@ -1,6 +1,6 @@
 import {JSX, PropsWithChildren, useEffect, useRef, useState} from "react";
 
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 
 import {SignOutIcon} from "../icons";
 import {LoadingSkeleton} from "../loadingSkeleton";

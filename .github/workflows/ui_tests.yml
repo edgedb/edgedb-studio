@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: lts/*
 
-      - name: Install Gel
+      - name: Install Studio
         uses: geldata/setup-gel@v1
         with:
           server-version: nightly

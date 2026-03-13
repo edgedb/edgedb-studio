@@ -1,0 +1,329 @@
+.container {
+  height: 100%;
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  flex: 1;
+}
+
+.split {
+  height: 100%;
+  min-height: 0;
+  width: 100%;
+  flex: 1;
+  border-radius: 12px;
+}
+
+.pane {
+  background: var(--panel_background);
+  border: none;
+  border-radius: 12px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  color: var(--main_text_color);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  min-height: 0;
+  width: 100%;
+}
+
+.leftPane {
+  padding: 14px;
+  gap: 12px;
+  background: var(--app_panel_background);
+  border-right: none;
+}
+
+.promptBox {
+  background: var(--panel_background);
+  border: 1px solid var(--panel_border);
+  border-radius: 10px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  textarea {
+    width: 100%;
+    min-height: 110px;
+    border: 1px solid var(--panel_border);
+    border-radius: 6px;
+    background: var(--panel_background);
+    color: var(--main_text_color);
+    padding: 10px;
+    resize: vertical;
+    font: inherit;
+  }
+}
+
+.promptHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  .actions {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 15px;
+  }
+
+  p {
+    margin: 2px 0 0;
+    color: var(--secondary_text_color);
+    font-size: 13px;
+  }
+}
+
+.runButton {
+  background: var(--accent, #2f84ff);
+  color: #0a0f1a;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-weight: 600;
+  cursor: pointer;
+  min-width: 92px;
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+}
+
+.textarea {
+  width: 100%;
+}
+
+.programList {
+  flex: 1;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.listHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+}
+
+.programCard {
+  border: 1px solid var(--panel_border);
+  background: var(--app_panel_background);
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  &:hover {
+    border-color: var(--secondary_text_color);
+  }
+
+  &.active {
+    border-color: var(--secondary_text_color);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+  }
+}
+
+.programTitle {
+  font-weight: 600;
+}
+
+.programMeta {
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-secondary, #9fb0ce);
+  font-size: 12px;
+  align-items: center;
+}
+
+.badge,
+.pill {
+  background: var(--app_panel_background);
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  text-transform: capitalize;
+}
+
+.rightPane {
+  min-height: 640px;
+  border-left: none;
+}
+
+.graphHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h3 {
+    margin: 0;
+    font-size: 15px;
+  }
+
+  p {
+    margin: 2px 0 0;
+    color: var(--secondary_text_color);
+    font-size: 13px;
+  }
+}
+
+.graphArea {
+  flex: 1;
+  min-height: 640px;
+  background-color: var(--programgraph-background, var(--schemagraph-background, var(--app_panel_background)));
+  background-image: radial-gradient(var(--panel_border) 1px, transparent 1px);
+  background-size: 18px 18px;
+  border: none;
+  border-radius: 8px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+  position: relative;
+
+  /* program graph palette */
+  --programgraph-background: var(--app_panel_background);
+  --programgraph-object-background: #313131;
+  --programgraph-object-colour: var(--main_text_color);
+  --programgraph-object-header-background: #8a5d90; /* softer purple */
+  --programgraph-object-header-colour: #0a0f1a;
+  --programgraph-object-selected-highlight: #ac75b5;
+  --programgraph-object-links-background: #313131;
+  --programgraph-object-links-selected-background: #3b5d9c;
+  --programgraph-object-links-hover-background: rgba(0, 0, 0, 0.04);
+  --programgraph-linkprop-background: #313131;
+  --programgraph-link-stroke: var(--panel_border);
+  --programgraph-link-selected-stroke: #3b5d9c;
+  --programgraph-link-stroke-hover: #3b5d9c;
+
+  /* fallbacks when program vars are not used by the graph impl */
+  --schemagraph-object-background: var(--programgraph-object-background, var(--panel_background));
+  --schemagraph-object-colour: var(--programgraph-object-colour, var(--main_text_color));
+  --schemagraph-object-header-background: var(--programgraph-object-header-background, var(--panel_border));
+  --schemagraph-object-header-colour: var(--programgraph-object-header-colour, var(--main_text_color));
+  --schemagraph-object-selected-highlight: var(--programgraph-object-selected-highlight, var(--secondary_text_color));
+  --schemagraph-object-links-background: var(--programgraph-object-links-background, var(--app_panel_background));
+  --schemagraph-object-links-selected-background: var(--programgraph-object-links-selected-background, var(--app_panel_background));
+  --schemagraph-object-links-hover-background: var(--programgraph-object-links-hover-background, rgba(0, 0, 0, 0.04));
+  --schemagraph-linkprop-background: var(--programgraph-linkprop-background, var(--app_panel_background));
+  --schemagraph-link-stroke: var(--programgraph-link-stroke, var(--panel_border));
+  --schemagraph-link-selected-stroke: var(--programgraph-link-selected-stroke, var(--secondary_text_color));
+  --schemagraph-link-stroke-hover: var(--programgraph-link-stroke-hover, var(--secondary_text_color));
+  position: relative;
+}
+
+.graph {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  flex: 1;
+}
+
+.graphArea :global(.schemaGraph) {
+  flex: 1;
+  min-height: 100%;
+}
+
+.minimap {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  margin: 0;
+  z-index: 3;
+}
+
+.graphArea :global(.debugopts) {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  left: auto;
+  background: var(--panel_background);
+  color: var(--main_text_color);
+  border: 1px solid var(--panel_border);
+  border-radius: 8px;
+  max-width: 260px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.node .circle {
+  fill: var(--panel_background);
+  stroke: var(--secondary_text_color);
+  stroke-width: 1.5;
+}
+
+.status_in-progress {
+  stroke: #c28b2f !important;
+}
+
+.status_done {
+  stroke: #2d9f6f !important;
+}
+
+.nodeLabel {
+  fill: var(--main_text_color);
+  font-size: 12px;
+}
+
+.edge line {
+  stroke: var(--panel_border);
+  stroke-width: 2;
+}
+
+.empty {
+  color: var(--secondary_text_color);
+  font-size: 13px;
+  padding: 8px 0;
+}
+
+.loaderOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.28);
+  z-index: 2;
+  backdrop-filter: blur(2px);
+  color: var(--main_text_color);
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #66c8ff;
+  animation: spin 1s linear infinite;
+}
+
+.loaderText {
+  font-size: 13px;
+  color: var(--secondary_text_color);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

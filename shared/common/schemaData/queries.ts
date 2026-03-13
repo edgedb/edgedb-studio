@@ -1,4 +1,4 @@
-import {EdgeDBVersion, versionGTE} from "./utils";
+import {SchemaVersion, versionGTE} from "./utils";
 
 export interface SchemaAnnotation {
   name: string;
@@ -66,7 +66,7 @@ export interface RawSchemaType {
   triggers?: SchemaTrigger[] | null;
 }
 
-export function getTypesQuery(version: EdgeDBVersion) {
+export function getTypesQuery(version: SchemaVersion) {
   return `
 with module schema
 select Type {
@@ -177,7 +177,7 @@ export interface RawPointerType {
     | null;
 }
 
-export function getPointersQuery(version: EdgeDBVersion) {
+export function getPointersQuery(version: SchemaVersion) {
   return `
 with module schema
 select Pointer {
@@ -451,7 +451,7 @@ select schema::Extension {
 }
 `;
 
-export function getIntrospectionQuery(version: EdgeDBVersion) {
+export function getIntrospectionQuery(version: SchemaVersion) {
   return `select {
   types := (${getTypesQuery(version)}),
   pointers := (${getPointersQuery(version)}),

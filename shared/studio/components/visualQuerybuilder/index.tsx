@@ -1,5 +1,5 @@
 import {observer} from "mobx-react-lite";
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 import {useDatabaseState, useTabState} from "../../state";
 import {SchemaData} from "../../state/database";
 import {QueryEditor} from "../../tabs/queryEditor/state";
@@ -11,15 +11,15 @@ import {
   prefixOperators,
   QueryBuilderState,
 } from "./state";
-import {SchemaObjectType, SchemaProperty} from "@edgedb/common/schemaData";
+import {SchemaObjectType, SchemaProperty} from "@dbsof/common/schemaData";
 
 import styles from "./queryBuilder.module.scss";
-import {Select} from "@edgedb/common/ui/select";
+import {Select} from "@dbsof/common/ui/select";
 import {DeleteIcon} from "../../icons";
-import {CustomScrollbars} from "@edgedb/common/ui/customScrollbar";
+import {CustomScrollbars} from "@dbsof/common/ui/customScrollbar";
 import {ObjectTypeSelect, sortObjectTypes} from "../objectTypeSelect";
 import {useLayoutEffect} from "react";
-import {CopyButton} from "@edgedb/common/newui/copyButton";
+import {CopyButton} from "@dbsof/common/newui/copyButton";
 
 export const VisualQuerybuilder = observer(function VisualQuerybuilder({
   state,
@@ -120,7 +120,7 @@ const QuerybuilderRoot = observer(function QuerybuilderRoot({
               The query builder UI requires a database with a non-empty schema.
               Check out the{" "}
               <a
-                href="https://www.geldata.com/p/quickstart-docs"
+                href="https://example.com/docs/quickstart"
                 target="_blank"
               >
                 Getting Started

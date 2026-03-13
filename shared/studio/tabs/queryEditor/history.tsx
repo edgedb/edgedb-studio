@@ -10,19 +10,19 @@ import {
 
 import {VariableSizeList as List} from "react-window";
 
-import Button from "@edgedb/common/ui/button";
-import cn from "@edgedb/common/utils/classNames";
+import Button from "@dbsof/common/ui/button";
+import cn from "@dbsof/common/utils/classNames";
 
 import {useTabState} from "../../state";
 import {QueryEditor, QueryHistoryItem} from "./state";
 import {renderThumbnail} from "./state/thumbnailGen";
-import {RelativeTime} from "@edgedb/common/utils/relativeTime";
+import {RelativeTime} from "@dbsof/common/utils/relativeTime";
 
 import styles from "./queryeditor.module.scss";
-import {useResize} from "@edgedb/common/hooks/useResize";
-import Spinner from "@edgedb/common/ui/spinner";
-import {useIsMobile} from "@edgedb/common/hooks/useMobile";
-import {CloseButton} from "@edgedb/common/ui/mobile";
+import {useResize} from "@dbsof/common/hooks/useResize";
+import Spinner from "@dbsof/common/ui/spinner";
+import {useIsMobile} from "@dbsof/common/hooks/useMobile";
+import {CloseButton} from "@dbsof/common/ui/mobile";
 
 export const HistoryPanel = observer(function HistoryPanel({
   className,

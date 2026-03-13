@@ -1,8 +1,8 @@
 import {Language} from "@codemirror/language";
 import {highlightTree} from "@lezer/highlight";
 
-import {edgeqlLanguage} from "@edgedb/lang-edgeql";
-import {highlightStyle} from "@edgedb/code-editor/theme";
+import {queryLanguage} from "@dbsof/lang-query";
+import {highlightStyle} from "@dbsof/code-editor/theme";
 
 enum SyntaxColour {
   base,
@@ -36,7 +36,7 @@ export function getThumbnailData({
   language?: Language;
   errorRange?: [number, number];
 }): ThumbnailData {
-  const tree = (language ?? edgeqlLanguage).parser.parse(query);
+  const tree = (language ?? queryLanguage).parser.parse(query);
 
   const lines: ThumbnailData = [];
   let currentLine: number[] = [];

@@ -5,7 +5,7 @@ import {
   useState,
 } from "react";
 
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 
 import {Select, SelectProps} from "../select";
 import {CloseIcon} from "../icons";

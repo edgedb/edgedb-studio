@@ -1,4 +1,4 @@
-@import "@edgedb/common/mixins.scss";
+@import "@dbsof/common/mixins.scss";
 
 .dashboardWrapper,
 .firstDashboardWrapper {
@@ -171,7 +171,7 @@
 
 .firstDashboard {
   .congrats {
-    font-family: EdgeDB;
+    font-family: DBSOF;
     font-weight: bold;
     font-size: 68px;
     max-width: 750px;
@@ -191,7 +191,7 @@
     text-align: center;
 
     h3 {
-      font-family: EdgeDB;
+      font-family: DBSOF;
       font-size: 25px;
       margin: 0 0 20px 0;
     }

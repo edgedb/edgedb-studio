@@ -1,13 +1,13 @@
 import {observer} from "mobx-react-lite";
 
-import {Button, CrossIcon} from "@edgedb/common/newui";
+import {Button, CrossIcon} from "@dbsof/common/newui";
 import {ExplainCodeBlock} from "../../components/explainVis/codeblock";
 
 import {AnalyseQueryState, PerfStatsState} from "./state";
 
 import styles from "./perfStats.module.scss";
 import {ExplainVis} from "../../components/explainVis";
-import Spinner from "@edgedb/common/ui/spinner";
+import Spinner from "@dbsof/common/ui/spinner";
 import {ExplainHighlightsRenderer} from "../../components/explainVis/codeEditorContexts";
 import {ParamsEditorPanel} from "../queryEditor/paramEditor";
 

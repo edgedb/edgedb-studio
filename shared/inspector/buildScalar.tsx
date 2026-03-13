@@ -7,9 +7,9 @@ import {
   SparseVector,
   Geometry,
   type AnyGeometry,
-} from "gel";
+} from "@dbsof/platform/client";
 
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 import {
   bufferToString,
   float16ArrayToString,
@@ -17,10 +17,10 @@ import {
   formatDatetime,
   prettyPrintJSON,
   sparseVectorToString,
-} from "@edgedb/common/utils/renderJsonResult";
+} from "@dbsof/common/utils/renderJsonResult";
 
-import {EnumCodec} from "gel/dist/codecs/enum";
-import {RangeCodec, MultiRangeCodec} from "gel/dist/codecs/range";
+import {EnumCodec} from "@dbsof/platform/client";
+import {RangeCodec, MultiRangeCodec} from "@dbsof/platform/client";
 
 import {Item, ItemType} from "./buildItem";
 
@@ -356,7 +356,7 @@ function sliceVec(vec: Iterable<number>, length: number): number[] {
   return arr;
 }
 
-function strToString(value: string): string {
+function strToString(value: any): string {
   const escape = (str: string) => {
     const split = str.split(/(\n|\\\\|\\')/g);
     if (split.length === 1) {
@@ -375,7 +375,10 @@ function strToString(value: string): string {
     return ret.join("");
   };
 
-  return escape(value);
+  const safe =
+    value === null || value === undefined ? "" : typeof value === "string" ? value : String(value);
+
+  return escape(safe);
 }
 
 function toSingleLineStr(value: string, limit = 200): JSX.Element {

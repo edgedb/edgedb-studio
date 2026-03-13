@@ -1,9 +1,9 @@
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 import {
   Select as _Select,
   SelectProps as _SelectProps,
-} from "@edgedb/common/ui/select";
-export type {SelectItem, SelectItems} from "@edgedb/common/ui/select";
+} from "@dbsof/common/ui/select";
+export type {SelectItem, SelectItems} from "@dbsof/common/ui/select";
 
 import styles from "./select.module.scss";
 

@@ -7,7 +7,7 @@ import {
 } from "react";
 import {observer} from "mobx-react-lite";
 
-import * as PostGIS from "gel/dist/datatypes/postgis";
+import * as PostGIS from "@dbsof/platform/client";
 import {
   Geometry,
   LineString,
@@ -20,15 +20,15 @@ import {
 } from "./editableGeom/types";
 import {ListItemRowHeight, PostgisEditor} from "./state";
 
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 
 import styles from "./postgisViewer.module.scss";
-import {useResize} from "@edgedb/common/hooks/useResize";
+import {useResize} from "@dbsof/common/hooks/useResize";
 import {
   ChevronDownIcon,
   CopyIcon,
   OverflowMenuIcon,
-} from "@edgedb/common/newui";
+} from "@dbsof/common/newui";
 import {runInAction} from "mobx";
 import {convertFromEditableGeometry} from "./editableGeom/convert";
 

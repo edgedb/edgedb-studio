@@ -3,8 +3,8 @@ import {observer} from "mobx-react-lite";
 
 import styles from "./schemaMinimap.module.scss";
 import {useSchemaState} from "../../state/provider";
-import cn from "@edgedb/common/utils/classNames";
-import {useDragHandler, Position} from "@edgedb/common/hooks/useDragHandler";
+import cn from "@dbsof/common/utils/classNames";
+import {useDragHandler, Position} from "@dbsof/common/hooks/useDragHandler";
 
 interface SchemaMinimapProps {
   className?: string;

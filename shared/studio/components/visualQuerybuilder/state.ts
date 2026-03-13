@@ -8,7 +8,7 @@ import {
   prop,
 } from "mobx-keystone";
 
-import {escapeName} from "@edgedb/common/schemaData";
+import {escapeName} from "@dbsof/common/schemaData";
 
 import {parsers} from "../dataEditor";
 

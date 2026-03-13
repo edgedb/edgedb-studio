@@ -10,9 +10,9 @@ import {observer} from "mobx-react-lite";
 import {Text} from "@codemirror/state";
 import {sql, PostgreSQL} from "@codemirror/lang-sql";
 
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 
-import {CodeEditorRef, createCodeEditor} from "@edgedb/code-editor";
+import {CodeEditorRef, createCodeEditor} from "@dbsof/code-editor";
 
 import styles from "./queryeditor.module.scss";
 
@@ -29,10 +29,10 @@ import {
 
 import {DatabaseTabSpec} from "../../components/databasePage";
 
-import {Theme, useTheme} from "@edgedb/common/hooks/useTheme";
+import {Theme, useTheme} from "@dbsof/common/hooks/useTheme";
 
-import SplitView from "@edgedb/common/ui/splitView";
-import {CustomScrollbars} from "@edgedb/common/ui/customScrollbar";
+import SplitView from "@dbsof/common/ui/splitView";
+import {CustomScrollbars} from "@dbsof/common/ui/customScrollbar";
 
 import {
   Button,
@@ -42,34 +42,34 @@ import {
   SplitViewIcon,
   TableViewIcon,
   TreeViewIcon,
-} from "@edgedb/common/newui";
+} from "@dbsof/common/newui";
 
 import {HistoryPanel} from "./history";
 import {ParamsEditorPanel} from "./paramEditor";
 import {TabEditorIcon} from "../../icons";
-import {useResize} from "@edgedb/common/hooks/useResize";
+import {useResize} from "@dbsof/common/hooks/useResize";
 import {VisualQuerybuilder} from "../../components/visualQuerybuilder";
-import Inspector from "@edgedb/inspector";
-import {ResultGrid} from "@edgedb/common/components/resultGrid";
+import Inspector from "@dbsof/inspector";
+import {ResultGrid} from "@dbsof/common/components/resultGrid";
 import {
   ExtendedViewerContext,
   ExtendedViewerRenderer,
 } from "../../components/extendedViewers";
-import {InspectorState} from "@edgedb/inspector/state";
-import inspectorStyles from "@edgedb/inspector/inspector.module.scss";
-import Spinner from "@edgedb/common/ui/spinner";
+import {InspectorState} from "@dbsof/inspector/state";
+import inspectorStyles from "@dbsof/inspector/inspector.module.scss";
+import Spinner from "@dbsof/common/ui/spinner";
 import {ExplainVis} from "../../components/explainVis";
 import {CodeEditorExplainContexts} from "../../components/explainVis/codeEditorContexts";
 import {ExplainStateType} from "../../components/explainVis/state";
-import {LabelsSwitch, switchState} from "@edgedb/common/ui/switch";
-import {useIsMobile} from "@edgedb/common/hooks/useMobile";
-import {EdgeDBSet} from "@edgedb/common/decodeRawBuffer";
-import {ObjectCodec} from "gel/dist/codecs/object";
-import {ICodec} from "gel/dist/codecs/ifaces";
-import {SplitViewDirection} from "@edgedb/common/ui/splitView/model";
+import {LabelsSwitch, switchState} from "@dbsof/common/ui/switch";
+import {useIsMobile} from "@dbsof/common/hooks/useMobile";
+import {ResultSet} from "@dbsof/common/decodeRawBuffer";
+import {ObjectCodec} from "@dbsof/platform/client";
+import {ICodec} from "@dbsof/platform/client";
+import {SplitViewDirection} from "@dbsof/common/ui/splitView/model";
 import {createPortal} from "react-dom";
-import {RelativeTime} from "@edgedb/common/utils/relativeTime";
-import {RecordCodec} from "gel/dist/codecs/record";
+import {RelativeTime} from "@dbsof/common/utils/relativeTime";
+import {RecordCodec} from "@dbsof/platform/client";
 import {ErrorDetails} from "../../utils/extractErrorDetails";
 
 export const QueryEditorView = observer(function QueryEditorView() {
@@ -130,11 +130,11 @@ export const QueryEditorView = observer(function QueryEditorView() {
             <div
               className={cn(styles.tab, {
                 [styles.selected]:
-                  editorState.selectedEditor === EditorKind.EdgeQL,
+                  editorState.selectedEditor === EditorKind.NativeQL,
               })}
-              onClick={() => editorState.setSelectedEditor(EditorKind.EdgeQL)}
+              onClick={() => editorState.setSelectedEditor(EditorKind.NativeQL)}
             >
-              <span>EdgeQL</span>
+              <span>SQL</span>
               {/* <EditorTabIcon /> */}
             </div>
             <div
@@ -146,20 +146,9 @@ export const QueryEditorView = observer(function QueryEditorView() {
                 editorState.setSelectedEditor(EditorKind.VisualBuilder)
               }
             >
-              <span>EdgeQL Builder</span>
+              <span>SQL Builder</span>
               {/* <BuilderTabIcon /> */}
             </div>
-            {editorState.sqlModeSupported ? (
-              <div
-                className={cn(styles.tab, {
-                  [styles.selected]:
-                    editorState.selectedEditor === EditorKind.SQL,
-                })}
-                onClick={() => editorState.setSelectedEditor(EditorKind.SQL)}
-              >
-                <span>SQL</span>
-              </div>
-            ) : null}
           </div>
 
           <div className={styles.controls}>
@@ -269,7 +258,7 @@ export const QueryEditorView = observer(function QueryEditorView() {
                     SplitViewDirection.vertical,
               })}
             >
-              {editorState.selectedEditor === EditorKind.EdgeQL ||
+              {editorState.selectedEditor === EditorKind.NativeQL ||
               editorState.selectedEditor === EditorKind.SQL ? (
                 <>
                   <div className={styles.editorBlockInner}>
@@ -464,7 +453,7 @@ const QueryResult = observer(function QueryResult({
   outputModeTargetRef: RefObject<HTMLDivElement>;
 }) {
   const isMobile = useIsMobile();
-  const [data, setData] = useState<EdgeDBSet | null>(null);
+  const [data, setData] = useState<ResultSet | null>(null);
 
   useEffect(() => {
     if (

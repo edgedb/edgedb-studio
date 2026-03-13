@@ -1,6 +1,6 @@
 import {observer} from "mobx-react-lite";
 
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 import {
   Button,
   Checkbox,
@@ -9,14 +9,14 @@ import {
   FieldHeader,
   InfoTooltip,
   TextInput,
-} from "@edgedb/common/newui";
+} from "@dbsof/common/newui";
 
 import {useTabState} from "../../state";
 import {AuthAdminState, DraftWebhookConfig, WebhookConfigData} from "./state";
 
 import styles from "./authAdmin.module.scss";
 import {useState} from "react";
-import {LoadingSkeleton} from "@edgedb/common/newui/loadingSkeleton";
+import {LoadingSkeleton} from "@dbsof/common/newui/loadingSkeleton";
 import {EmailProviderWarning} from "./shared";
 
 export const WebhooksTab = observer(function WebhooksTab() {

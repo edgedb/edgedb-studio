@@ -1,11 +1,11 @@
 import {Fragment} from "react";
 
-import {ICodec} from "gel/dist/codecs/ifaces";
-import {EnumCodec} from "gel/dist/codecs/enum";
-import {NamedTupleCodec} from "gel/dist/codecs/namedtuple";
-import {MultiRangeCodec, RangeCodec} from "gel/dist/codecs/range";
+import {ICodec} from "@dbsof/platform/client";
+import {EnumCodec} from "@dbsof/platform/client";
+import {NamedTupleCodec} from "@dbsof/platform/client";
+import {MultiRangeCodec, RangeCodec} from "@dbsof/platform/client";
 
-import {renderValue} from "@edgedb/inspector/buildScalar";
+import {renderValue} from "@dbsof/inspector/buildScalar";
 
 import styles from "./dataGrid.module.scss";
 

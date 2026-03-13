@@ -2,8 +2,8 @@ import {useRef, useState, useEffect, useMemo} from "react";
 
 import Fuzzysort from "fuzzysort";
 
-import {highlightString} from "@edgedb/common/utils/fuzzysortHighlight";
-import cn from "@edgedb/common/utils/classNames";
+import {highlightString} from "@dbsof/common/utils/fuzzysortHighlight";
+import cn from "@dbsof/common/utils/classNames";
 
 import styles from "./select.module.scss";
 import {useIsMobile} from "../../hooks/useMobile";

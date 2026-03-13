@@ -1,4 +1,4 @@
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 import {CrossIcon, RunIcon, CancelQueryIcon} from "../../icons";
 import Spinner from "../../spinner";
 import styles from "./roundButton.module.scss";

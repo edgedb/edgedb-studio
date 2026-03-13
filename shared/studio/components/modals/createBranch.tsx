@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 
-import {useModal} from "@edgedb/common/hooks/useModal";
+import {useModal} from "@dbsof/common/hooks/useModal";
 import {
   Checkbox,
   Modal,
@@ -9,7 +9,7 @@ import {
   Select,
   SubmitButton,
   TextInput,
-} from "@edgedb/common/newui";
+} from "@dbsof/common/newui";
 
 import {InstanceState} from "../../state/instance";
 

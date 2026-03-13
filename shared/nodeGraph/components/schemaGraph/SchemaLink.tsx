@@ -3,7 +3,7 @@ import {observer} from "mobx-react-lite";
 
 import styles from "./schemaGraph.module.scss";
 import {useSchemaState} from "../../state/provider";
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 import {SchemaGraphLinkType, SchemaGraphRoute} from "../../core/interfaces";
 
 interface SchemaLinkProps {

@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {observer} from "mobx-react-lite";
 
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 import {
   Button,
   ConfirmButton,
@@ -10,13 +10,13 @@ import {
   InfoTooltip,
   Select,
   TextInput,
-} from "@edgedb/common/newui";
+} from "@dbsof/common/newui";
 
 import {useTabState} from "../../state";
 import {AIAdminState, AIPromptDraft, PromptChatParticipantRole} from "./state";
 
-import textStyles from "@edgedb/common/newui/textInput/textInput.module.scss";
-import fieldHeaderStyles from "@edgedb/common/newui/fieldHeader/fieldHeader.module.scss";
+import textStyles from "@dbsof/common/newui/textInput/textInput.module.scss";
+import fieldHeaderStyles from "@dbsof/common/newui/fieldHeader/fieldHeader.module.scss";
 import styles from "./aiAdmin.module.scss";
 
 export const PromptsTab = observer(function PromptTab() {

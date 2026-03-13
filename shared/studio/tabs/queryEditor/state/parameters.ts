@@ -10,11 +10,10 @@ import {
 import {observable, computed, action, autorun} from "mobx";
 import {Text} from "@codemirror/state";
 
-import {Language} from "gel/dist/ifaces";
+import {Language} from "@dbsof/platform/client";
 
 import {
   deserializeResolvedParameter,
-  extractEdgeQLQueryParameters,
   extractSQLQueryParameters,
   ResolvedParameter,
   SerializedResolvedParameter,
@@ -129,19 +128,14 @@ export class QueryParamsEditor extends Model({
 
     if (!schemaScalars || query == null) return;
 
-    let params: Map<string, ResolvedParameter> | null = null;
-    if (this.lang === Language.EDGEQL) {
-      params = extractEdgeQLQueryParameters(query, schemaScalars);
-    } else {
-      const conn = connCtx.get(this)!;
-      this._currentFetchParamsTask = new AbortController();
-      params = await extractSQLQueryParameters(
-        query,
-        schemaScalars,
-        conn,
-        this._currentFetchParamsTask.signal
-      );
-    }
+    const conn = connCtx.get(this)!;
+    this._currentFetchParamsTask = new AbortController();
+    const params = await extractSQLQueryParameters(
+      query,
+      schemaScalars,
+      conn,
+      this._currentFetchParamsTask.signal
+    );
     if (params) {
       this.updateCurrentParams(params);
     }
@@ -261,7 +255,7 @@ export class QueryParamsEditor extends Model({
         }
         this.updateCurrentParams(deserializedParams);
       } else {
-        // should be edgeql query so this is not async
+        // should be a query statement so this is not async
         this._extractQueryParameters();
       }
 

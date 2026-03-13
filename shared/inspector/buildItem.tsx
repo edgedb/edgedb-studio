@@ -1,10 +1,10 @@
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 
-import {_ICodec} from "gel";
-import {CodecKind} from "gel/dist/codecs/ifaces";
-import {ObjectCodec} from "gel/dist/codecs/object";
-import {NamedTupleCodec} from "gel/dist/codecs/namedtuple";
-import {RecordCodec} from "gel/dist/codecs/record";
+import {_ICodec} from "@dbsof/platform/client";
+import {CodecKind} from "@dbsof/platform/client";
+import {ObjectCodec} from "@dbsof/platform/client";
+import {NamedTupleCodec} from "@dbsof/platform/client";
+import {RecordCodec} from "@dbsof/platform/client";
 
 import {buildScalarItem} from "./buildScalar";
 

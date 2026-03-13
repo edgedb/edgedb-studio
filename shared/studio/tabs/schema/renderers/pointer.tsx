@@ -1,7 +1,7 @@
 import {Fragment} from "react";
 import {observer} from "mobx-react-lite";
 
-import {SchemaPointer, SchemaRewrite} from "@edgedb/common/schemaData";
+import {SchemaPointer, SchemaRewrite} from "@dbsof/common/schemaData";
 
 import {SearchMatches} from "../state/textView";
 
@@ -24,7 +24,7 @@ import {useSchemaTextState} from "../textView";
 import {AnnotationRenderer, annotationToSDL} from "./annotation";
 import {ConstraintRenderer, constraintToSDL} from "./constraint";
 import {IndexRenderer, indexToSDL} from "./schemaIndex";
-import CodeBlock from "@edgedb/common/ui/codeBlock";
+import CodeBlock from "@dbsof/common/ui/codeBlock";
 
 const targetDeleteKeywords = {
   Restrict: "restrict",

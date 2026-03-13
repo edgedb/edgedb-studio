@@ -1,14 +1,14 @@
 import {useMemo, useRef, useState} from "react";
 import {observer} from "mobx-react-lite";
 
-import cn from "@edgedb/common/utils/classNames";
-import {useResize} from "@edgedb/common/hooks/useResize";
+import cn from "@dbsof/common/utils/classNames";
+import {useResize} from "@dbsof/common/hooks/useResize";
 
 import {PerfStatsState} from "./state";
 
 import styles from "./perfStats.module.scss";
 import {formatDurationLabel, gradient} from "./utils";
-import {useGlobalDragCursor} from "@edgedb/common/hooks/globalDragCursor";
+import {useGlobalDragCursor} from "@dbsof/common/hooks/globalDragCursor";
 
 export const StatsChart = observer(function StatsChart({
   state,

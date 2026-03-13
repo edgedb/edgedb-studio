@@ -3,14 +3,14 @@ import {FixedSizeList as List} from "react-window";
 
 import styles from "./hexViewer.module.scss";
 
-import cn from "@edgedb/common/utils/classNames";
-import {useResize} from "@edgedb/common/hooks/useResize";
+import cn from "@dbsof/common/utils/classNames";
+import {useResize} from "@dbsof/common/hooks/useResize";
 import {createHexViewerState, HexViewer as HexViewerState} from "./state";
 import {observer} from "mobx-react-lite";
 import {computed} from "mobx";
 import {ToggleButton, HeaderBar} from "../shared";
-import {CustomScrollbars} from "@edgedb/common/ui/customScrollbar";
-import {Button} from "@edgedb/common/newui";
+import {CustomScrollbars} from "@dbsof/common/ui/customScrollbar";
+import {Button} from "@dbsof/common/newui";
 
 export interface HexViewerProps {
   data: Uint8Array;

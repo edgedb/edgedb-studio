@@ -1,4 +1,4 @@
-import {CodeEditorRef} from "@edgedb/code-editor";
+import {CodeEditorRef} from "@dbsof/code-editor";
 import {observer} from "mobx-react-lite";
 import {
   forwardRef,
@@ -10,12 +10,12 @@ import {
 } from "react";
 import {createPortal} from "react-dom";
 
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 
 import styles from "./explainVis.module.scss";
 import {Context, ExplainState, Plan} from "./state";
 import {darkPalette, lightPalette} from "./treemapLayout";
-import {Theme, useTheme} from "@edgedb/common/hooks/useTheme";
+import {Theme, useTheme} from "@dbsof/common/hooks/useTheme";
 
 interface CtxRect {
   id: number;

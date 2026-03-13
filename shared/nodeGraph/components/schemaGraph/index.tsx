@@ -3,11 +3,11 @@ import {observer} from "mobx-react-lite";
 
 import styles from "./schemaGraph.module.scss";
 import {useSchemaState} from "../../state/provider";
-import {useDragHandler, Position} from "@edgedb/common/hooks/useDragHandler";
+import {useDragHandler, Position} from "@dbsof/common/hooks/useDragHandler";
 
 import SchemaNode from "./SchemaNode";
 import SchemaLink from "./SchemaLink";
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 import {GRID_SIZE} from "../../core/interfaces";
 import {SchemaState} from "../../state";
 import {DebugState} from "./debug";

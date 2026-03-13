@@ -1,10 +1,10 @@
 {
-  "name": "webui",
+  "name": "dbsof-web",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "localdev-config": "edb cli query \"configure instance set cors_allow_origins := {'*'}\"",
+    "localdev-config": "echo 'Provide your own backend configuration command here'",
     "dev": "vite",
     "build": "vite build",
     "typecheck": "tsc -b",
@@ -13,12 +13,12 @@
     "test": "playwright test"
   },
   "dependencies": {
-    "@edgedb/code-editor": "workspace:*",
-    "@edgedb/common": "workspace:*",
-    "@edgedb/studio": "workspace:*",
+    "@dbsof/code-editor": "workspace:*",
+    "@dbsof/common": "workspace:*",
+    "@dbsof/platform": "workspace:*",
+    "@dbsof/studio": "workspace:*",
     "@fontsource-variable/roboto-flex": "^5.1.0",
     "@fontsource-variable/roboto-mono": "^5.1.0",
-    "gel": "^2.0.2",
     "mobx": "^6.5.0",
     "mobx-keystone": "^1.11.0",
     "mobx-react-lite": "^4.0.0",

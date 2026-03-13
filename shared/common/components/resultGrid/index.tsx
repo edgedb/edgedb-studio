@@ -1,8 +1,8 @@
 import {useEffect} from "react";
 import {observer} from "mobx-react-lite";
 
-import cn from "@edgedb/common/utils/classNames";
-import {renderResultAsJson} from "@edgedb/common/utils/renderJsonResult";
+import cn from "@dbsof/common/utils/classNames";
+import {renderResultAsJson} from "@dbsof/common/utils/renderJsonResult";
 import {CopyButton} from "../../newui/copyButton";
 
 import {GridHeader, ResultGridState, RowHeight} from "./state";
@@ -18,7 +18,7 @@ import {calculateInitialColWidths} from "../dataGrid/utils";
 import {renderCellValue} from "../dataGrid/renderUtils";
 
 import gridStyles from "../dataGrid/dataGrid.module.scss";
-import inspectorStyles from "@edgedb/inspector/inspector.module.scss";
+import inspectorStyles from "@dbsof/inspector/inspector.module.scss";
 
 import styles from "./resultGrid.module.scss";
 

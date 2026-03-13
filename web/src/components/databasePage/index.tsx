@@ -5,31 +5,31 @@ import {useLocation, useNavigate, useParams, Link} from "react-router-dom";
 import {
   InstanceState,
   InstanceStateContext,
-} from "@edgedb/studio/state/instance";
-import {HeaderTab} from "@edgedb/studio/components/headerNav";
+} from "@dbsof/studio/state/instance";
+import {HeaderTab} from "@dbsof/studio/components/headerNav";
 import {
   HeaderNav,
   HeaderNavCol,
   HeaderNavColProps,
-} from "@edgedb/studio/components/headerNav/elements";
-import {HeaderDatabaseIcon} from "@edgedb/studio/icons";
+} from "@dbsof/studio/components/headerNav/elements";
+import {HeaderDatabaseIcon} from "@dbsof/studio/icons";
 
-import {DBRouterProvider} from "@edgedb/studio/hooks/dbRoute";
-import {useModal} from "@edgedb/common/hooks/useModal";
-import CreateBranchModal from "@edgedb/studio/components/modals/createBranch";
+import {DBRouterProvider} from "@dbsof/studio/hooks/dbRoute";
+import {useModal} from "@dbsof/common/hooks/useModal";
+import CreateBranchModal from "@dbsof/studio/components/modals/createBranch";
 
 import DatabasePageContent, {
   DatabaseTabSpec,
-} from "@edgedb/studio/components/databasePage";
+} from "@dbsof/studio/components/databasePage";
 
-import {dashboardTabSpec} from "@edgedb/studio/tabs/dashboard";
-import {replTabSpec} from "@edgedb/studio/tabs/repl";
-import {editorTabSpec} from "@edgedb/studio/tabs/queryEditor";
-import {schemaTabSpec} from "@edgedb/studio/tabs/schema";
-import {dataviewTabSpec} from "@edgedb/studio/tabs/dataview";
-import {authAdminTabSpec} from "@edgedb/studio/tabs/auth";
-import {aiTabSpec} from "@edgedb/studio/tabs/ai";
-import {perfStatsTabSpec} from "@edgedb/studio/tabs/perfStats";
+import {dashboardTabSpec} from "@dbsof/studio/tabs/dashboard";
+import {replTabSpec} from "@dbsof/studio/tabs/repl";
+import {editorTabSpec} from "@dbsof/studio/tabs/queryEditor";
+import {schemaTabSpec} from "@dbsof/studio/tabs/schema";
+import {dataviewTabSpec} from "@dbsof/studio/tabs/dataview";
+import {authAdminTabSpec} from "@dbsof/studio/tabs/auth";
+import {aiTabSpec} from "@dbsof/studio/tabs/ai";
+import {perfStatsTabSpec} from "@dbsof/studio/tabs/perfStats";
 
 import {useAppState} from "../../state/providers";
 

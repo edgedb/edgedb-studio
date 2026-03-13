@@ -1,8 +1,8 @@
 import {lazy, Suspense} from "react";
 import {observer} from "mobx-react-lite";
 
-import CodeBlock from "@edgedb/common/ui/codeBlock";
-import Spinner from "@edgedb/common/ui/spinner";
+import CodeBlock from "@dbsof/common/ui/codeBlock";
+import Spinner from "@dbsof/common/ui/spinner";
 
 import {useDatabaseState} from "../../state";
 
@@ -51,7 +51,7 @@ const AuthAdminLoader = observer(function AuthAdminLoader() {
           <CodeBlock code="using extension auth;" />
           <p>
             For more information check out the{" "}
-            <a href="https://www.geldata.com/p/auth-ext-docs" target="_blank">
+            <a href="https://example.com/docs/auth" target="_blank">
               auth extension docs
             </a>
           </p>

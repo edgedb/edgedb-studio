@@ -1,12 +1,13 @@
-# Gel UI web app
+# DBSOF web app
 
-Note: If you are just looking to use Gel UI, then you don't need to do any of
-these steps, just run the `gel ui` command from your project directory.
+This package contains the browser shell for the DBSOF UI. It runs entirely in
+the browser with no backend required and can later be wired up to any platform
+through a custom adapter when you are ready.
 
 ## Development
 
 > **Prerequisites**: You will need to have Yarn 2+ installed, and have run the
-> `yarn` command to install the workspace's dependencies.
+> `yarn install` command at the repo root to install the workspace dependencies.
 
 To start the UI dev server:
 
@@ -16,23 +17,9 @@ yarn dev
 
 The app is served at `http://localhost:3002/ui`.
 
-The Gel server needs to be run separately with `cors_allow_origins`
-configured to allow the UI's `localhost:3002` origin:
-
-```sh
-edb server
-
-# Only needs to be run once:
-edb cli configure set cors_allow_origins '*'
-
-```
-
-To customize the Gel server address (if it's not running at the
-default of `localhost:5656`):
-
-```sh
-env VITE_GEL_SERVER_URL="192.168.0.123:5656" yarn dev
-```
+The UI renders with local sample content only; no backend is started or
+required. To integrate with your own APIs, add your adapter and configuration
+on top of this UI shell without changing the visual components.
 
 ## UI Tests
 
@@ -48,10 +35,9 @@ To run the UI tests:
 yarn test
 ```
 
-If there is already an instance of an Gel dev server running on port 5656,
-or the UI dev server running on port 3000, then they will be used by the tests.
-If not (or the tests are running in CI), the test runner will start temporary
-instances of them for the duration of the tests.
+If the UI dev server is already running on port 3002 then the tests will reuse
+it; otherwise the test runner will start the UI for the duration of the test
+run. No backend services are started by the tests.
 
 By default the tests run `chromedriver` in headless mode, but to see the
 Chrome window during the tests (eg. for debugging), run with the `--no-headless`

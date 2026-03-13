@@ -1,10 +1,10 @@
 import {forwardRef, RefObject, useEffect, useState} from "react";
 
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 
-import {Select} from "@edgedb/common/ui/select";
+import {Select} from "@dbsof/common/ui/select";
 
-import {SchemaScalarType} from "@edgedb/common/schemaData";
+import {SchemaScalarType} from "@dbsof/common/schemaData";
 
 import styles from "./dataEditor.module.scss";
 import {

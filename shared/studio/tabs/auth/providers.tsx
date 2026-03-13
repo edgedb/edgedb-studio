@@ -1,7 +1,7 @@
 import {useMemo, useState} from "react";
 import {observer} from "mobx-react-lite";
 
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 
 import {useTabState} from "../../state";
 import {
@@ -28,18 +28,18 @@ import {
   Select,
   SelectItem,
   TextInput,
-} from "@edgedb/common/newui";
+} from "@dbsof/common/newui";
 
 import styles from "./authAdmin.module.scss";
 import {EmailProviderWarning, StickyBottomBar} from "./shared";
-import {Theme, useTheme} from "@edgedb/common/hooks/useTheme";
+import {Theme, useTheme} from "@dbsof/common/hooks/useTheme";
 import {AppConfigForm} from "./config";
 import {
   DarkThemeIcon,
   LightThemeIcon,
-} from "@edgedb/common/ui/themeSwitcher/icons";
+} from "@dbsof/common/ui/themeSwitcher/icons";
 import {LoginUIPreview} from "./loginUIPreview";
-import {LoadingSkeleton} from "@edgedb/common/newui/loadingSkeleton";
+import {LoadingSkeleton} from "@dbsof/common/newui/loadingSkeleton";
 
 export const ProvidersTab = observer(function ProvidersTab() {
   const state = useTabState(AuthAdminState);
@@ -338,7 +338,7 @@ const DraftProviderConfigForm = observer(function DraftProviderConfigForm({
                         <>
                           The full origin of the sign-in page including
                           protocol and port of the application. If using the
-                          built-in UI, this should be the origin of the Gel
+                          built-in UI, this should be the origin of the Studio
                           server.
                         </>
                       }

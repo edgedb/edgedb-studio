@@ -1,4 +1,4 @@
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 import {PropsWithChildren} from "react";
 import styles from "./button.module.scss";
 

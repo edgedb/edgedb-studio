@@ -8,7 +8,7 @@ import {syntaxTree} from "@codemirror/language";
 import {Text} from "@codemirror/state";
 import {EditorView} from "@codemirror/view";
 import {SyntaxNode} from "@lezer/common";
-import {SchemaObjectType} from "@edgedb/common/schemaData";
+import {SchemaObjectType} from "@dbsof/common/schemaData";
 
 function sliceDoc(doc: Text, range: {from: number; to: number}): string {
   return doc.sliceString(range.from, range.to);

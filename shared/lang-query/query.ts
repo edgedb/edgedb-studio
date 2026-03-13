@@ -9,7 +9,7 @@ const parser = _parser as LRParser;
 
 export {parser};
 
-export const edgeqlLanguage = LRLanguage.define({
+export const queryLanguage = LRLanguage.define({
   parser: parser.configure({
     props: [
       styleTags({
@@ -43,6 +43,6 @@ export const edgeqlLanguage = LRLanguage.define({
   },
 });
 
-export function edgeql() {
-  return new LanguageSupport(edgeqlLanguage);
+export function queryLanguageSupport() {
+  return new LanguageSupport(queryLanguage);
 }

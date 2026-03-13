@@ -1,16 +1,16 @@
 import {observer} from "mobx-react-lite";
 
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 
 import {QueryParamsEditor, ResolvedParameter} from "../state/parameters";
 
 import {getInputComponent} from "../../../components/dataEditor";
 
 import styles from "./paramEditor.module.scss";
-import {Position, useDragHandler} from "@edgedb/common/hooks/useDragHandler";
-import {useGlobalDragCursor} from "@edgedb/common/hooks/globalDragCursor";
+import {Position, useDragHandler} from "@dbsof/common/hooks/useDragHandler";
+import {useGlobalDragCursor} from "@dbsof/common/hooks/globalDragCursor";
 import {RefObject, useRef} from "react";
-import {CustomScrollbars} from "@edgedb/common/ui/customScrollbar";
+import {CustomScrollbars} from "@dbsof/common/ui/customScrollbar";
 
 const isMac =
   typeof navigator !== "undefined"

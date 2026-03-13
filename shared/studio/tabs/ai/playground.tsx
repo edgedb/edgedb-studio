@@ -3,7 +3,7 @@ import {observer} from "mobx-react-lite";
 import Markdown from "react-markdown";
 import {Link} from "react-router-dom";
 
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 import {
   Button,
   ChatSendIcon,
@@ -12,12 +12,12 @@ import {
   InfoTooltip,
   Select,
   SettingsIcon,
-} from "@edgedb/common/newui";
-import Spinner from "@edgedb/common/ui/spinner";
-import {RelativeTime} from "@edgedb/common/utils/relativeTime";
-import {Theme, useTheme} from "@edgedb/common/hooks/useTheme";
+} from "@dbsof/common/newui";
+import Spinner from "@dbsof/common/ui/spinner";
+import {RelativeTime} from "@dbsof/common/utils/relativeTime";
+import {Theme, useTheme} from "@dbsof/common/hooks/useTheme";
 
-import {CodeEditor} from "@edgedb/code-editor";
+import {CodeEditor} from "@dbsof/code-editor";
 import {Text} from "@codemirror/state";
 
 import {useTabState} from "../../state";
@@ -88,7 +88,7 @@ export const PlaygroundTab = observer(function PlaygroundTab() {
             <InfoTooltip
               className={styles.configTooltip}
               message={
-                "An EdgeQL expression returning a set of objects with AI indexes."
+                "An SQL expression returning a set of objects with AI indexes."
               }
             />
           </div>

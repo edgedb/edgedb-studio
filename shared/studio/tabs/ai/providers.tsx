@@ -1,7 +1,7 @@
 import {Fragment, useState} from "react";
 import {observer} from "mobx-react-lite";
 
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 import {
   Button,
   ConfirmButton,
@@ -10,7 +10,7 @@ import {
   Select,
   TextInput,
   WarningIcon,
-} from "@edgedb/common/newui";
+} from "@dbsof/common/newui";
 
 import {useTabState} from "../../state";
 import {

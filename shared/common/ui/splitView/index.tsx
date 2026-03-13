@@ -1,12 +1,12 @@
 import React, {Fragment, useRef} from "react";
 import {observer} from "mobx-react-lite";
 
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 
 import styles from "./splitView.module.scss";
 
-import {useDragHandler, Position} from "@edgedb/common/hooks/useDragHandler";
-import {useGlobalDragCursor} from "@edgedb/common/hooks/globalDragCursor";
+import {useDragHandler, Position} from "@dbsof/common/hooks/useDragHandler";
+import {useGlobalDragCursor} from "@dbsof/common/hooks/globalDragCursor";
 
 import {SplitViewDirection, SplitViewState} from "./model";
 import {useIsMobile} from "../../hooks/useMobile";

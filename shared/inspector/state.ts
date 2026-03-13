@@ -12,22 +12,22 @@ import {
   idProp,
 } from "mobx-keystone";
 import {action, computed, observable} from "mobx";
-import {_ICodec} from "gel";
+import {_ICodec} from "@dbsof/platform/client";
 
-import {prettyPrintJSON} from "@edgedb/common/utils/renderJsonResult";
+import {prettyPrintJSON} from "@dbsof/common/utils/renderJsonResult";
 
 import {Item, buildItem, expandItem, ItemType} from "./buildItem";
 
 export type {Item};
 
-export interface EdgeDBResult {
+export interface InspectorResult {
   data: any[];
   codec: _ICodec;
 }
 
 export const resultGetterCtx =
   createContext<
-    (state: InspectorState) => Promise<EdgeDBResult | undefined>
+    (state: InspectorState) => Promise<InspectorResult | undefined>
   >();
 
 export type NestedDataGetter = (
@@ -152,7 +152,7 @@ export class InspectorState extends Model({
   @modelFlow
   initData = _async(function* (
     this: InspectorState,
-    result?: EdgeDBResult,
+    result?: InspectorResult,
     jsonMode: boolean = false
   ) {
     if (this.loadingData) {

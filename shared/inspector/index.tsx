@@ -1,13 +1,13 @@
 import {observer} from "mobx-react-lite";
 import {VariableSizeList as List, ListChildComponentProps} from "react-window";
-import {_ICodec} from "gel";
+import {_ICodec} from "@dbsof/platform/client";
 
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 import {
   renderResultAsJson,
   _renderToJson,
-} from "@edgedb/common/utils/renderJsonResult";
-import {CopyIcon} from "@edgedb/common/newui/icons";
+} from "@dbsof/common/utils/renderJsonResult";
+import {CopyIcon} from "@dbsof/common/newui/icons";
 
 import {InspectorState, Item} from "./state";
 import {InspectorContext, useInspectorState} from "./context";

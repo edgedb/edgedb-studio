@@ -1,7 +1,7 @@
 import {useMemo} from "react";
 
-import {SchemaObjectType} from "@edgedb/common/schemaData";
-import {Select, SelectItem, SelectItems} from "@edgedb/common/ui/select";
+import {SchemaObjectType} from "@dbsof/common/schemaData";
+import {Select, SelectItem, SelectItems} from "@dbsof/common/ui/select";
 
 export function sortObjectTypes(objectTypes: SchemaObjectType[]) {
   const user: SchemaObjectType[] = [];

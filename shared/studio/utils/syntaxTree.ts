@@ -1,6 +1,6 @@
 import {SyntaxNode} from "@lezer/common";
 
-import {parser} from "@edgedb/lang-edgeql";
+import {parser} from "@dbsof/lang-query";
 
 export function splitQueryIntoStatements(queryString: string) {
   const syntaxTree = parser.parse(queryString);

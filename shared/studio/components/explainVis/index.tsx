@@ -1,8 +1,8 @@
-import {useResize} from "@edgedb/common/hooks/useResize";
-import CodeBlock from "@edgedb/common/ui/codeBlock";
-import cn from "@edgedb/common/utils/classNames";
+import {useResize} from "@dbsof/common/hooks/useResize";
+import CodeBlock from "@dbsof/common/ui/codeBlock";
+import cn from "@dbsof/common/utils/classNames";
 import {observer} from "mobx-react-lite";
-import {Switch, switchState} from "@edgedb/common/ui/switch";
+import {Switch, switchState} from "@dbsof/common/ui/switch";
 import * as Tooltip from "@radix-ui/react-tooltip";
 
 import {useRef} from "react";
@@ -11,13 +11,13 @@ import styles from "./explainVis.module.scss";
 import {ExplainState, Plan, ExplainContext, useExplainState} from "./state";
 
 import {darkPalette, lightPalette, Treemap} from "./treemapLayout";
-import {Theme, useTheme} from "@edgedb/common/hooks/useTheme";
+import {Theme, useTheme} from "@dbsof/common/hooks/useTheme";
 import {
   explainGraphSettings,
   graphType,
   graphUnit,
 } from "../../state/explainGraphSettings";
-import {useIsMobile} from "@edgedb/common/hooks/useMobile";
+import {useIsMobile} from "@dbsof/common/hooks/useMobile";
 
 export enum ExplainType {
   light = "light",

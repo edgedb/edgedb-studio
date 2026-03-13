@@ -1,6 +1,6 @@
 import {observer} from "mobx-react-lite";
 
-import {SchemaScalarType} from "@edgedb/common/schemaData";
+import {SchemaScalarType} from "@dbsof/common/schemaData";
 
 import {useSchemaTextState} from "../textView";
 

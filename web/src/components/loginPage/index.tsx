@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 
-import {getHTTPSCRAMAuth} from "gel/dist/httpScram";
-import {cryptoUtils} from "gel/dist/browserCrypto";
+import {getHTTPSCRAMAuth} from "@dbsof/platform/client";
+import {cryptoUtils} from "@dbsof/platform/client";
 
 import {
   ModalPanel,
@@ -11,7 +11,7 @@ import {
   TextInput,
   SubmitButton,
   InfoIcon,
-} from "@edgedb/common/newui";
+} from "@dbsof/common/newui";
 
 import {serverUrl, setAuthToken} from "../../state/models/app";
 import {Logo} from "../header";
@@ -61,7 +61,7 @@ export default function LoginPage() {
 
       <ModalPanel
         className={styles.loginPanel}
-        title="Welcome to Gel UI"
+        title="Welcome to Studio UI"
         onSubmit={onSubmit}
         formError={error}
         footerButtons={
@@ -80,9 +80,9 @@ export default function LoginPage() {
             <div className={styles.loginInfo}>
               <InfoIcon />
               <div>
-                <span>It looks like you're running Gel locally.</span>
-                <br /> If you created this instance using the Gel CLI, the
-                easiest way to login is by running the <code>gel ui</code>{" "}
+                <span>It looks like you're running Studio locally.</span>
+                <br /> If you created this instance using the Studio CLI, the
+                easiest way to login is by running your platform's UI launcher
                 command from your project directory.
               </div>
             </div>

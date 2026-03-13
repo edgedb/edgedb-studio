@@ -1,0 +1,490 @@
+openapi: 3.1.0
+info:
+  title: UI Template API
+  version: 1.0.0
+  description: Minimal CRUD-style endpoints to support SQL execution, schema exploration, data browsing, and AI task flows.
+servers:
+  - url: http://localhost:5757
+    description: Local dev API
+tags:
+  - name: Instances
+  - name: SQL
+  - name: Schema
+  - name: Data
+  - name: AI
+paths:
+  /instances:
+    get:
+      tags: [Instances]
+      summary: List instances
+      responses:
+        "200":
+          description: Instances available to the user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Instance"
+
+  /instances/{instanceId}/databases:
+    parameters:
+      - $ref: "#/components/parameters/InstanceId"
+    get:
+      tags: [Instances]
+      summary: List databases (branches) for an instance
+      responses:
+        "200":
+          description: Databases for the instance
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Database"
+
+  /instances/{instanceId}/databases/{database}/sql/commands:
+    parameters:
+      - $ref: "#/components/parameters/InstanceId"
+      - $ref: "#/components/parameters/Database"
+    post:
+      tags: [SQL]
+      summary: Execute a SQL command (REPL/editor)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SqlCommandRequest"
+      responses:
+        "200":
+          description: Command executed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SqlCommandResult"
+
+  /instances/{instanceId}/databases/{database}/sql/history:
+    parameters:
+      - $ref: "#/components/parameters/InstanceId"
+      - $ref: "#/components/parameters/Database"
+      - in: query
+        name: limit
+        schema: {type: integer, minimum: 1, maximum: 200, default: 50}
+      - in: query
+        name: cursor
+        schema: {type: string, description: Opaque cursor for pagination}
+    get:
+      tags: [SQL]
+      summary: Fetch SQL command history
+      responses:
+        "200":
+          description: Historical commands
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/SqlHistoryItem"
+                  nextCursor:
+                    type: string
+                    nullable: true
+
+  /instances/{instanceId}/databases/{database}/schema:
+    parameters:
+      - $ref: "#/components/parameters/InstanceId"
+      - $ref: "#/components/parameters/Database"
+    get:
+      tags: [Schema]
+      summary: Get database schema (for text/graph views)
+      responses:
+        "200":
+          description: Schema overview
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SchemaSnapshot"
+
+  /instances/{instanceId}/databases/{database}/tables:
+    parameters:
+      - $ref: "#/components/parameters/InstanceId"
+      - $ref: "#/components/parameters/Database"
+    get:
+      tags: [Data]
+      summary: List tables for data explorer
+      responses:
+        "200":
+          description: Tables and basic stats
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TableSummary"
+
+  /instances/{instanceId}/databases/{database}/tables/{table}/schema:
+    parameters:
+      - $ref: "#/components/parameters/InstanceId"
+      - $ref: "#/components/parameters/Database"
+      - $ref: "#/components/parameters/Table"
+    get:
+      tags: [Data]
+      summary: Get table schema
+      responses:
+        "200":
+          description: Column definitions and relationships
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TableSchema"
+
+  /instances/{instanceId}/databases/{database}/tables/{table}/rows:
+    parameters:
+      - $ref: "#/components/parameters/InstanceId"
+      - $ref: "#/components/parameters/Database"
+      - $ref: "#/components/parameters/Table"
+      - in: query
+        name: limit
+        schema: {type: integer, minimum: 1, maximum: 500, default: 100}
+      - in: query
+        name: offset
+        schema: {type: integer, minimum: 0, default: 0}
+      - in: query
+        name: where
+        schema: {type: string, description: Optional SQL WHERE fragment}
+      - in: query
+        name: orderBy
+        schema: {type: string, description: Optional SQL ORDER BY fragment}
+    get:
+      tags: [Data]
+      summary: Fetch table rows for explorer
+      responses:
+        "200":
+          description: Tabular data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TableRowsPage"
+
+  /instances/{instanceId}/databases/{database}/ai/tasks:
+    parameters:
+      - $ref: "#/components/parameters/InstanceId"
+      - $ref: "#/components/parameters/Database"
+    post:
+      tags: [AI]
+      summary: Create a new program build task (alias)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AiProgramCreate"
+      responses:
+        "202":
+          description: Task accepted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AiTaskWithProgram"
+    get:
+      tags: [AI]
+      summary: List AI tasks
+      parameters:
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum: [pending, running, failed, completed]
+      responses:
+        "200":
+          description: Tasks for the database
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AiTask"
+
+  /instances/{instanceId}/databases/{database}/ai/programs:
+    parameters:
+      - $ref: "#/components/parameters/InstanceId"
+      - $ref: "#/components/parameters/Database"
+    post:
+      tags: [AI]
+      summary: Create a new program build request
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AiProgramCreate"
+      responses:
+        "202":
+          description: Program build accepted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AiTaskWithProgram"
+    get:
+      tags: [AI]
+      summary: List programs
+      responses:
+        "200":
+          description: Programs for the database
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AiProgram"
+
+  /instances/{instanceId}/databases/{database}/ai/programs/{programId}:
+    parameters:
+      - $ref: "#/components/parameters/InstanceId"
+      - $ref: "#/components/parameters/Database"
+      - $ref: "#/components/parameters/ProgramId"
+    get:
+      tags: [AI]
+      summary: Get program details/graph
+      responses:
+        "200":
+          description: Program details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AiProgram"
+
+  /instances/{instanceId}/databases/{database}/ai/tasks/{taskId}:
+    parameters:
+      - $ref: "#/components/parameters/InstanceId"
+      - $ref: "#/components/parameters/Database"
+      - $ref: "#/components/parameters/TaskId"
+    get:
+      tags: [AI]
+      summary: Get AI task status/output
+      responses:
+        "200":
+          description: Task details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AiTaskWithProgram"
+
+components:
+  parameters:
+    InstanceId:
+      in: path
+      name: instanceId
+      required: true
+      schema: {type: string}
+    Database:
+      in: path
+      name: database
+      required: true
+      schema: {type: string}
+    Table:
+      in: path
+      name: table
+      required: true
+      schema: {type: string}
+    ProgramId:
+      in: path
+      name: programId
+      required: true
+      schema: {type: string}
+    TaskId:
+      in: path
+      name: taskId
+      required: true
+      schema: {type: string}
+
+  schemas:
+    Instance:
+      type: object
+      properties:
+        id: {type: string}
+        name: {type: string}
+    Database:
+      type: object
+      properties:
+        name: {type: string}
+        lastMigration: {type: string, nullable: true}
+    SqlCommandRequest:
+      type: object
+      required: [query]
+      properties:
+        query:
+          type: string
+          description: SQL text to execute
+        params:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              typeName: {type: string}
+              value: {}
+        mode:
+          type: string
+          enum: [raw, tabular]
+          default: tabular
+          description: raw = REPL/plain text; tabular = structured rows
+    SqlCommandResult:
+      type: object
+      properties:
+        id: {type: string}
+        status: {type: string}
+        durationMs: {type: number}
+        columns:
+          type: array
+          items: {type: string}
+        rows:
+          type: array
+          items:
+            type: array
+            items: {}
+        rawText:
+          type: string
+          description: Present when mode=raw
+        warnings:
+          type: array
+          items: {type: string}
+    SqlHistoryItem:
+      type: object
+      properties:
+        id: {type: string}
+        query: {type: string}
+        params:
+          type: object
+          additionalProperties: {}
+        status: {type: string}
+        createdAt: {type: string, format: date-time}
+        durationMs: {type: number}
+    SchemaSnapshot:
+      type: object
+      properties:
+        types:
+          type: array
+          items:
+            type: object
+            properties:
+              name: {type: string}
+              kind: {type: string, enum: [table, view, function, scalar, enum]}
+              module: {type: string}
+              references:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    target: {type: string}
+                    type: {type: string, enum: [link, dependency]}
+        version: {type: string}
+    TableSummary:
+      type: object
+      properties:
+        name: {type: string}
+        rowCount: {type: integer, nullable: true}
+        columns:
+          type: array
+          items:
+            $ref: "#/components/schemas/TableColumn"
+    TableSchema:
+      type: object
+      properties:
+        name: {type: string}
+        columns:
+          type: array
+          items:
+            $ref: "#/components/schemas/TableColumn"
+        indexes:
+          type: array
+          items:
+            type: object
+            properties:
+              name: {type: string}
+              expression: {type: string}
+        primaryKey:
+          type: array
+          items: {type: string}
+    TableColumn:
+      type: object
+      properties:
+        name: {type: string}
+        type: {type: string}
+        nullable: {type: boolean}
+        default: {type: string, nullable: true}
+    TableRowsPage:
+      type: object
+      properties:
+        columns:
+          type: array
+          items: {type: string}
+        rows:
+          type: array
+          items:
+            type: array
+            items: {}
+        total:
+          type: integer
+          nullable: true
+    ProgramGraphNode:
+      type: object
+      properties:
+        id: {type: string}
+        label: {type: string}
+        status: {type: string, enum: [pending, in-progress, done]}
+    ProgramGraphEdge:
+      type: object
+      properties:
+        from: {type: string}
+        to: {type: string}
+        label: {type: string}
+    ProgramGraph:
+      type: object
+      properties:
+        nodes:
+          type: array
+          items: {$ref: "#/components/schemas/ProgramGraphNode"}
+        edges:
+          type: array
+          items: {$ref: "#/components/schemas/ProgramGraphEdge"}
+    AiProgramCreate:
+      type: object
+      required: [feature]
+      properties:
+        feature:
+          type: string
+          description: User request / feature description
+        name:
+          type: string
+          description: Optional friendly name
+    AiTask:
+      type: object
+      properties:
+        id: {type: string}
+        programId: {type: string}
+        status:
+          type: string
+          enum: [pending, running, failed, completed]
+        prompt: {type: string}
+        createdAt: {type: string, format: date-time}
+        completedAt: {type: string, format: date-time, nullable: true}
+    AiProgram:
+      type: object
+      properties:
+        id: {type: string}
+        feature: {type: string}
+        status: {type: string, enum: [building, ready, failed]}
+        createdAt: {type: string, format: date-time}
+        updatedAt: {type: string, format: date-time}
+        graph:
+          $ref: "#/components/schemas/ProgramGraph"
+    AiTaskWithProgram:
+      type: object
+      properties:
+        task:
+          $ref: "#/components/schemas/AiTask"
+        program:
+          $ref: "#/components/schemas/AiProgram"

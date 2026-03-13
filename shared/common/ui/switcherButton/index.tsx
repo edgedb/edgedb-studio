@@ -1,6 +1,6 @@
 import {useEffect, useRef, useState} from "react";
 
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 
 import Button from "../button";
 

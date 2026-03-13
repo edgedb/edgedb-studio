@@ -11,7 +11,7 @@ export default defineConfig({
     entries: "./index.html",
   },
   esbuild: {
-    // don't minify class names, to preserve edgedb error names
+    // don't minify class names, to preserve error names from the backend
     keepNames: true,
   },
   css: {

@@ -1,6 +1,6 @@
 import {EditorSelection, Extension, Facet} from "@codemirror/state";
 import {gutter, GutterMarker, gutters} from "@codemirror/view";
-import {parser} from "@edgedb/lang-edgeql";
+import {parser} from "@dbsof/lang-query";
 
 import styles from "../repl.module.scss";
 

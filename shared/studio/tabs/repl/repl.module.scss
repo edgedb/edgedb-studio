@@ -1,4 +1,4 @@
-@import "@edgedb/common/mixins.scss";
+@import "@dbsof/common/mixins.scss";
 
 .replWrapper {
   position: relative;
@@ -93,8 +93,8 @@
   }
 
   .headerMsg {
-    margin-top: 15px * -3;
-    margin-left: 16ch;
+    margin-top: 15px * 0.75;
+    margin-left: 0px;
     padding-bottom: 16px;
     line-height: 20px;
     color: var(--tertiary_text_color);

@@ -1,5 +1,5 @@
 import {openDB, DBSchema, IDBPDatabase} from "idb";
-import {ProtocolVersion} from "gel/dist/ifaces";
+import {ProtocolVersion} from "@dbsof/platform/client";
 import {StoredSchemaData} from "../state/database";
 import {StoredSessionStateData} from "../state/sessionState";
 import {rewriteTypedesc} from "../utils/rewriteTypedesc";
@@ -70,7 +70,7 @@ interface IDBStore extends DBSchema {
 }
 
 function _initDB() {
-  return openDB<IDBStore>("EdgeDBStudio", 4, {
+  return openDB<IDBStore>("DBSOFStudio", 4, {
     upgrade(db, oldVersion) {
       switch (oldVersion) {
         // @ts-ignore fallthrough

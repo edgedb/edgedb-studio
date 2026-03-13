@@ -1,4 +1,3 @@
-import {Stream} from "@anthropic-ai/sdk/streaming";
 import {ConnectConfig} from "../../../state/connection";
 
 export type ChatParticipantRole = "system" | "user" | "assistant" | "tool";
@@ -56,34 +55,37 @@ export type SSEEvent =
       error: {type: string; message: string};
     };
 
-export type SSEStream = Stream<SSEEvent>;
+export type SSEStream = AsyncIterable<SSEEvent>;
 
 export async function runRAGQuery(
-  connectConfig: ConnectConfig,
+  _connectConfig: ConnectConfig,
   request: RAGRequest,
   abortController: AbortController
 ): Promise<SSEStream> {
-  const response = await fetch(
-    `${connectConfig.serverUrl}/branch/${encodeURIComponent(
-      connectConfig.database
-    )}/ext/ai/rag`,
-    {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${connectConfig.authProvider.getAuthToken()}`,
-        "X-EdgeDB-User":
-          connectConfig.authProvider.getAuthUser?.() ?? "edgedb",
-      },
-      body: JSON.stringify({...request, stream: true}),
-      signal: abortController.signal,
+  // Mocked streaming response: emit a single text block and stop.
+  const model = request.model || "mock-model";
+  const messageId = `mock-${Date.now()}`;
+  async function* mockStream(): SSEStream {
+    if (abortController.signal.aborted) {
+      throw new DOMException("The operation was aborted.", "AbortError");
     }
-  );
-
-  if (!response.ok) {
-    const bodyText = await response.text();
-    throw new Error(bodyText);
+    yield {
+      type: "message_start",
+      message: {id: messageId, model, role: "assistant"},
+    };
+    yield {
+      type: "content_block_start",
+      index: 0,
+      content_block: {type: "text", text: ""},
+    };
+    yield {
+      type: "content_block_delta",
+      index: 0,
+      delta: {type: "text_delta", text: "This is a mocked AI response."},
+    };
+    yield {type: "content_block_stop", index: 0};
+    yield {type: "message_stop"};
   }
-  return Stream.fromSSEResponse(response, abortController);
+
+  return mockStream();
 }

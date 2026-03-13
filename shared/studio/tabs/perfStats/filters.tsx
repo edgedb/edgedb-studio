@@ -1,13 +1,13 @@
 import {useEffect, useRef, useState} from "react";
 import {observer} from "mobx-react-lite";
 
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 import {
   Checkbox,
   ChevronDownIcon,
   CrossIcon,
   FieldHeader,
-} from "@edgedb/common/newui";
+} from "@dbsof/common/newui";
 
 import {PerfStatsState, TagFilterGroup} from "./state";
 

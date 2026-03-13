@@ -1,6 +1,6 @@
 import {observer} from "mobx-react-lite";
 
-import {SchemaGlobal} from "@edgedb/common/schemaData";
+import {SchemaGlobal} from "@dbsof/common/schemaData";
 
 import {
   CollapseArrow,
@@ -17,7 +17,7 @@ import {useSchemaTextState} from "../textView";
 import {SearchMatches} from "../state/textView";
 
 import styles from "../textView.module.scss";
-import CodeBlock from "@edgedb/common/ui/codeBlock";
+import CodeBlock from "@dbsof/common/ui/codeBlock";
 import {AnnotationRenderer, annotationToSDL} from "./annotation";
 
 export const GlobalRenderer = observer(function GlobalRenderer({

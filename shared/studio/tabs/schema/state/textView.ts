@@ -22,7 +22,7 @@ import {
   SchemaAlias,
   SchemaGlobal,
   SchemaOperator,
-} from "@edgedb/common/schemaData";
+} from "@dbsof/common/schemaData";
 
 import {dbCtx} from "../../../state";
 import {Schema} from ".";

@@ -1,7 +1,7 @@
 import {useEffect, useLayoutEffect} from "react";
 import {Observer, observer} from "mobx-react-lite";
 
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 
 import {useTabState} from "../../state";
 import {useDBRouter} from "../../hooks/dbRoute";
@@ -12,7 +12,7 @@ import {PlaygroundTab} from "./playground";
 import {PromptsTab} from "./prompts";
 
 import styles from "./aiAdmin.module.scss";
-import {WarningIcon} from "@edgedb/common/newui";
+import {WarningIcon} from "@dbsof/common/newui";
 
 const aiAdminTabs = [
   {

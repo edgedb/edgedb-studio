@@ -1,6 +1,6 @@
 export const reserved_keywords = [
-  "__edgedbsys__",
-  "__edgedbtpl__",
+  "__system__",
+  "__template__",
   "__new__",
   "__old__",
   "__source__",

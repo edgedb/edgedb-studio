@@ -3,9 +3,9 @@ import {
   SparseVector,
   type _ICodec as ICodec,
   Geometry,
-} from "gel";
-import type {ObjectCodec} from "gel/dist/codecs/object";
-import type {NamedTupleCodec} from "gel/dist/codecs/namedtuple";
+} from "@dbsof/platform/client";
+import type {ObjectCodec} from "@dbsof/platform/client";
+import type {NamedTupleCodec} from "@dbsof/platform/client";
 
 export function renderResultAsJson(
   result: any,

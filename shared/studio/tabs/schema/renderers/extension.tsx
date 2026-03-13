@@ -1,5 +1,5 @@
-import cn from "@edgedb/common/utils/classNames";
-import {SchemaExtension} from "@edgedb/common/schemaData";
+import cn from "@dbsof/common/utils/classNames";
+import {SchemaExtension} from "@dbsof/common/schemaData";
 
 import {
   Copyable,

@@ -1,8 +1,8 @@
 import {Fragment} from "react";
 import {observer} from "mobx-react-lite";
 
-import {SchemaConstraint} from "@edgedb/common/schemaData";
-import {paramToSDL} from "@edgedb/common/schemaData/utils";
+import {SchemaConstraint} from "@dbsof/common/schemaData";
+import {paramToSDL} from "@dbsof/common/schemaData/utils";
 
 import {useSchemaTextState} from "../textView";
 import {SearchMatches} from "../state/textView";
@@ -22,7 +22,7 @@ import {
 import styles from "../textView.module.scss";
 import {SchemaParamRenderer} from "./function";
 import {AnnotationRenderer, annotationToSDL} from "./annotation";
-import CodeBlock from "@edgedb/common/ui/codeBlock";
+import CodeBlock from "@dbsof/common/ui/codeBlock";
 
 export const AbstractConstraintRenderer = observer(
   function AbstractConstraintRenderer({

@@ -6,7 +6,7 @@ import {
   SchemaType,
   escapeName,
   SchemaObjectType,
-} from "@edgedb/common/schemaData";
+} from "@dbsof/common/schemaData";
 import {
   EditValue,
   DataEditorState,

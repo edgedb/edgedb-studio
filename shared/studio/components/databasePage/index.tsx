@@ -3,12 +3,12 @@ import {observer} from "mobx-react-lite";
 import {AnyModel, getTypeInfo, ModelClass, ModelTypeInfo} from "mobx-keystone";
 import {ErrorBoundary, FallbackProps} from "react-error-boundary";
 
-import cn from "@edgedb/common/utils/classNames";
-import Button from "@edgedb/common/ui/button";
-import {BaseTabBarProps} from "@edgedb/common/ui/navtabs/interfaces";
-import {MobileNavTabs} from "@edgedb/common/ui/navtabs/mobile";
-import {useIsMobile} from "@edgedb/common/hooks/useMobile";
-import {VerticalTabBar} from "@edgedb/common/ui/verticalTabBar";
+import cn from "@dbsof/common/utils/classNames";
+import Button from "@dbsof/common/ui/button";
+import {BaseTabBarProps} from "@dbsof/common/ui/navtabs/interfaces";
+import {MobileNavTabs} from "@dbsof/common/ui/navtabs/mobile";
+import {useIsMobile} from "@dbsof/common/hooks/useMobile";
+import {VerticalTabBar} from "@dbsof/common/ui/verticalTabBar";
 
 import {useInstanceState} from "../../state/instance";
 import {DatabaseStateContext, useDatabaseState} from "../../state/database";
@@ -84,8 +84,8 @@ function ErrorFallback({error}: FallbackProps) {
       </h2>
       <p>
         Please consider opening an issue at{" "}
-        <a href="https://github.com/edgedb/edgedb-studio/issues/new">
-          https://github.com/edgedb/edgedb-studio/issues/new
+        <a href="https://example.com/dbsof-ui/issues/new">
+          https://example.com/dbsof-ui/issues/new
         </a>{" "}
         with the error details below.
       </p>

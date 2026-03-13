@@ -1,7 +1,7 @@
 import CodeBlock, {
   CodeBlockProps,
   CustomRange,
-} from "@edgedb/common/ui/codeBlock";
+} from "@dbsof/common/ui/codeBlock";
 import {useMemo} from "react";
 import {Contexts as ExplainContexts} from "./state";
 

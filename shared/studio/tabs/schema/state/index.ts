@@ -1,11 +1,11 @@
 import {autorun, observable} from "mobx";
 import {model, Model, prop} from "mobx-keystone";
 
-import {type SchemaState} from "@edgedb/schema-graph";
+import {type SchemaState} from "@dbsof/node-graph";
 
 import {dbCtx} from "../../../state/database";
 
-import {SplitViewState} from "@edgedb/common/ui/splitView/model";
+import {SplitViewState} from "@dbsof/common/ui/splitView/model";
 
 import {SchemaTextView} from "./textView";
 

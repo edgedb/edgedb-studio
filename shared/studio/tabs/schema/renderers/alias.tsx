@@ -1,6 +1,6 @@
 import {observer} from "mobx-react-lite";
 
-import {SchemaAlias} from "@edgedb/common/schemaData";
+import {SchemaAlias} from "@dbsof/common/schemaData";
 
 import {
   CollapseArrow,
@@ -18,7 +18,7 @@ import {SearchMatches} from "../state/textView";
 import styles from "../textView.module.scss";
 
 import {AnnotationRenderer, annotationToSDL} from "./annotation";
-import CodeBlock from "@edgedb/common/ui/codeBlock";
+import CodeBlock from "@dbsof/common/ui/codeBlock";
 
 export const AliasRenderer = observer(function AliasRenderer({
   type,

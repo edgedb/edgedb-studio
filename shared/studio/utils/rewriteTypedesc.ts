@@ -1,4 +1,4 @@
-import {ReadBuffer, WriteBuffer} from "gel/dist/primitives/buffer";
+import {ReadBuffer, WriteBuffer} from "@dbsof/platform/client";
 
 // converts a v1 encoded typedesc to a v2 encoded typedesc
 export function rewriteTypedesc(oldDesc: Uint8Array): Uint8Array {

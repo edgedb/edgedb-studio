@@ -1,6 +1,6 @@
 import {observer} from "mobx-react-lite";
 
-import {SchemaIndex} from "@edgedb/common/schemaData";
+import {SchemaIndex} from "@dbsof/common/schemaData";
 
 import {useSchemaTextState} from "../textView";
 
@@ -8,7 +8,7 @@ import {CollapseArrow, Keyword, Punc} from "./utils";
 
 import styles from "../textView.module.scss";
 import {AnnotationRenderer, annotationToSDL} from "./annotation";
-import CodeBlock from "@edgedb/common/ui/codeBlock";
+import CodeBlock from "@dbsof/common/ui/codeBlock";
 
 export const IndexRenderer = observer(function IndexRenderer({
   index,

@@ -49,13 +49,16 @@ import {
 import {indentationMarkers} from "@replit/codemirror-indentation-markers";
 import {lintKeymap} from "@codemirror/lint";
 
-import {edgeql, edgeqlLanguage} from "@edgedb/lang-edgeql";
+import {
+  queryLanguageSupport,
+  queryLanguage,
+} from "@dbsof/lang-query";
 import {highlightStyle, darkTheme, lightTheme} from "./theme";
 import {getCompletions} from "./completions";
 
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 
-import {SchemaObjectType} from "@edgedb/common/schemaData";
+import {SchemaObjectType} from "@dbsof/common/schemaData";
 
 import styles from "./codeEditor.module.scss";
 import {cursorPlugin} from "./terminalCursor";
@@ -319,7 +322,7 @@ export function createCodeEditor({
           },
         ]),
         darkThemeComp.of(useDarkTheme ? darkTheme : lightTheme),
-        language === undefined ? edgeql() : language ?? [],
+        language === undefined ? queryLanguageSupport() : language ?? [],
         onChangeComp.of(
           EditorView.updateListener.of((update) => {
             if (update.docChanged) {
@@ -330,7 +333,7 @@ export function createCodeEditor({
         autocompleteComp.of(
           schemaObjects
             ? [
-                edgeqlLanguage.data.of({
+                queryLanguage.data.of({
                   autocomplete: getCompletions(schemaObjects),
                 }),
               ]
@@ -475,7 +478,7 @@ export function createCodeEditor({
           effects: autocompleteComp.reconfigure(
             schemaObjects
               ? [
-                  edgeqlLanguage.data.of({
+                  queryLanguage.data.of({
                     autocomplete: getCompletions(schemaObjects),
                   }),
                 ]

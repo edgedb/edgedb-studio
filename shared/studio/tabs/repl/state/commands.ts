@@ -1,4 +1,4 @@
-import {SchemaObjectType, SchemaScalarType} from "@edgedb/common/schemaData";
+import {SchemaObjectType, SchemaScalarType} from "@dbsof/common/schemaData";
 import {Repl, ReplHistoryItem, ReplLang} from ".";
 import {dbCtx} from "../../../state";
 import {instanceCtx} from "../../../state/instance";
@@ -97,9 +97,9 @@ export async function handleSlashCommand(
     case "set": {
       if (args[0] === "language") {
         const lang = args.slice(1).join(" ");
-        if (lang === "edgeql" || lang === "sql") {
+        if (lang === "query" || lang === "sql") {
           item.setCommandResult({kind: CommandOutputKind.none});
-          repl.setLanguage(lang === "sql" ? ReplLang.SQL : ReplLang.EdgeQL);
+          repl.setLanguage(lang === "sql" ? ReplLang.SQL : ReplLang.Query);
         } else {
           item.setCommandResult({
             kind: CommandOutputKind.error,
@@ -114,15 +114,15 @@ export async function handleSlashCommand(
       }
       break;
     }
-    case "edgeql":
+    case "query":
     case "sql": {
-      if (command === "edgeql" || repl.sqlModeSupported) {
+      if (command === "query" || repl.sqlModeSupported) {
         item.setCommandResult({kind: CommandOutputKind.none});
-        repl.setLanguage(command === "sql" ? ReplLang.SQL : ReplLang.EdgeQL);
+        repl.setLanguage(command === "sql" ? ReplLang.SQL : ReplLang.Query);
       } else {
         item.setCommandResult({
           kind: CommandOutputKind.error,
-          msg: `This version of Gel does not support SQL mode`,
+          msg: `This backend version does not support SQL mode`,
         });
       }
       break;

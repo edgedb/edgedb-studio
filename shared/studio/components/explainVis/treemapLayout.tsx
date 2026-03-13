@@ -1,4 +1,4 @@
-import {useResize} from "@edgedb/common/hooks/useResize";
+import {useResize} from "@dbsof/common/hooks/useResize";
 import {
   forwardRef,
   Fragment,
@@ -12,11 +12,11 @@ import {
 import {useExplainState} from "./state";
 import styles from "./explainVis.module.scss";
 import {ExplainState, Plan} from "./state";
-import cn from "@edgedb/common/utils/classNames";
-import CodeBlock from "@edgedb/common/ui/codeBlock";
+import cn from "@dbsof/common/utils/classNames";
+import CodeBlock from "@dbsof/common/ui/codeBlock";
 import {observer} from "mobx-react-lite";
-import {Theme, useTheme} from "@edgedb/common/hooks/useTheme";
-import {useIsMobile} from "@edgedb/common/hooks/useMobile";
+import {Theme, useTheme} from "@dbsof/common/hooks/useTheme";
+import {useIsMobile} from "@dbsof/common/hooks/useMobile";
 
 export const lightPalette = ["#D5D8EF", "#FDF5E2", "#DAE9FB", "#E6FFF8"];
 export const darkPalette = ["#292235", "#2B3428", "#182A30", "#20352F"];

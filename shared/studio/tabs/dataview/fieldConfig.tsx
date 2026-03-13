@@ -3,11 +3,11 @@ import {action, computed, makeObservable, observable} from "mobx";
 import {observer} from "mobx-react-lite";
 import * as z from "zod";
 
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 import {
   getLocalStorageCacheItem,
   storeLocalStorageCacheItem,
-} from "@edgedb/common/utils/localStorageCache";
+} from "@dbsof/common/utils/localStorageCache";
 
 import {
   Checkbox,
@@ -16,7 +16,7 @@ import {
   DragHandleIcon,
   MigrationsListIcon,
   ChevronDownIcon,
-} from "@edgedb/common/newui";
+} from "@dbsof/common/newui";
 
 import {
   DataInspector,
@@ -26,7 +26,7 @@ import {
 } from "./state";
 
 import styles from "./fieldConfig.module.scss";
-import {useGlobalDragCursor} from "@edgedb/common/hooks/globalDragCursor";
+import {useGlobalDragCursor} from "@dbsof/common/hooks/globalDragCursor";
 
 const FieldItemHeight = 40;
 

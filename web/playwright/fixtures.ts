@@ -1,8 +1,8 @@
 import {test as base, type Locator} from "@playwright/test";
-import {type Client, createClient} from "gel";
+import {type Client, createClient} from "@dbsof/platform/client";
 
 type Fixtures = {
-  gelClient: Client;
+  apiClient: Client;
   uiClass: (className: string) => Locator;
   mockClipboard: {
     getClipboardData: () => string;
@@ -10,7 +10,7 @@ type Fixtures = {
 };
 
 export const test = base.extend<Fixtures>({
-  gelClient: ({}, use) => {
+  apiClient: ({}, use) => {
     use(createClient({port: 5656, tlsSecurity: "insecure", branch: "_test"}));
   },
   uiClass: ({page}, use) => {

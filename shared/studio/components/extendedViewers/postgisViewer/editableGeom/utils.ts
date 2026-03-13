@@ -10,7 +10,7 @@ import {
   Box,
 } from "./types";
 import * as geojson from "./geojsonTypes";
-import {assertNever} from "@edgedb/common/utils/assertNever";
+import {assertNever} from "@dbsof/common/utils/assertNever";
 
 export function getBoundingBoxFeature(
   geoms: Set<Geometry | Box>

@@ -1,7 +1,7 @@
 import {Fragment} from "react";
 import {observer} from "mobx-react-lite";
 
-import {SchemaOperator} from "@edgedb/common/schemaData";
+import {SchemaOperator} from "@dbsof/common/schemaData";
 
 import {Arrow, ItemHeader, Keyword, Punc, TypeLink, TypeName} from "./utils";
 

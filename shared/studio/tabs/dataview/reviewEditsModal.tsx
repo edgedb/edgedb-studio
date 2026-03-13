@@ -1,13 +1,13 @@
 import {Fragment, useState} from "react";
 import {observer} from "mobx-react-lite";
 
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 
 import {DataView} from "./state";
 import {getAllChildren} from "../../utils/syntaxTree";
-import {SchemaType} from "@edgedb/common/schemaData";
+import {SchemaType} from "@dbsof/common/schemaData";
 
-import {useModal} from "@edgedb/common/hooks/useModal";
+import {useModal} from "@dbsof/common/hooks/useModal";
 import {WarningIcon} from "../../icons";
 
 import {
@@ -15,7 +15,7 @@ import {
   ModalContent,
   Button,
   ConfirmButton,
-} from "@edgedb/common/newui";
+} from "@dbsof/common/newui";
 
 import {
   ErrorDetails,
@@ -27,10 +27,10 @@ import {
   renderInvalidEditorValue,
 } from "../../components/dataEditor/utils";
 
-import {renderValue} from "@edgedb/inspector/buildScalar";
-import inspectorStyles from "@edgedb/inspector/inspector.module.scss";
+import {renderValue} from "@dbsof/inspector/buildScalar";
+import inspectorStyles from "@dbsof/inspector/inspector.module.scss";
 
-import CodeBlock from "@edgedb/common/ui/codeBlock";
+import CodeBlock from "@dbsof/common/ui/codeBlock";
 
 import styles from "./editsModal.module.scss";
 

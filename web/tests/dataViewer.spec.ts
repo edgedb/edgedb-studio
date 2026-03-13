@@ -3,8 +3,8 @@ import {test, expect} from "../playwright";
 test.describe("Account", () => {
   test.describe.configure({mode: "serial"});
 
-  test.beforeAll(async ({gelClient}, testInfo) => {
-    await gelClient.withConfig({allow_bare_ddl: "AlwaysAllow"})
+  test.beforeAll(async ({apiClient}, testInfo) => {
+    await apiClient.withConfig({allow_bare_ddl: "AlwaysAllow"})
       .execute(`create type default::Account_${testInfo.project.name} {
       create required property username -> std::str {
         create constraint std::exclusive;
@@ -19,8 +19,8 @@ test.describe("Account", () => {
     )`);
   });
 
-  test.afterAll(async ({gelClient}, testInfo) => {
-    await gelClient.execute(
+  test.afterAll(async ({apiClient}, testInfo) => {
+    await apiClient.execute(
       `drop type default::Account_${testInfo.project.name}`
     );
   });

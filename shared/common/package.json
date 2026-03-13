@@ -1,9 +1,9 @@
 {
-  "name": "@edgedb/common",
+  "name": "@dbsof/common",
   "version": "0.0.0",
   "private": true,
   "peerDependencies": {
-    "gel": "^2.0.2",
+    "@dbsof/platform": "workspace:*",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },

@@ -1,4 +1,4 @@
-import {reserved_keywords} from "@edgedb/lang-edgeql/meta";
+import {reserved_keywords} from "@dbsof/lang-query/meta";
 
 import {
   RawAbstractAnnotation,
@@ -17,7 +17,7 @@ import {
   SchemaRewriteKind,
 } from "./queries";
 import {KnownScalarTypes} from "./knownTypes";
-import {EdgeDBVersion, paramToSDL, versionGTE} from "./utils";
+import {SchemaVersion, paramToSDL, versionGTE} from "./utils";
 
 export {KnownScalarTypes};
 export type {SchemaAnnotation, SchemaAccessPolicy, SchemaTrigger};
@@ -326,7 +326,7 @@ const secretPointers = new Set([
 
 export function buildTypesGraph(
   data: RawIntrospectionResult,
-  version: EdgeDBVersion
+  version: SchemaVersion
 ): {
   types: Map<string, SchemaType>;
   pointers: Map<string, SchemaPointer>;

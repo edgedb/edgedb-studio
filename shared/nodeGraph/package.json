@@ -1,15 +1,15 @@
 {
-  "name": "@edgedb/schema-graph",
+  "name": "@dbsof/node-graph",
   "private": true,
   "version": "0.0.0",
   "license": "UNLICENSED",
   "peerDependencies": {
-    "gel": "^2.0.2",
+    "@dbsof/platform": "workspace:*",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },
   "devDependencies": {
-    "@edgedb/common": "workspace:*",
+    "@dbsof/common": "workspace:*",
     "@types/react-transition-group": "^4.4.0",
     "fastpriorityqueue": "^0.6.3",
     "fuse.js": "^6.4.1",

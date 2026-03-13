@@ -1,7 +1,7 @@
 import {PropsWithChildren, useEffect, useRef, useState} from "react";
 import {observer} from "mobx-react-lite";
 
-import cn from "@edgedb/common/utils/classNames";
+import cn from "@dbsof/common/utils/classNames";
 
 import {useResize} from "../../hooks/useResize";
 import {CustomScrollbars} from "../../ui/customScrollbar";

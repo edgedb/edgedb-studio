@@ -18,10 +18,10 @@ import {NavigateFunction} from "../../../hooks/dbRoute";
 
 import {Text} from "@codemirror/state";
 
-import {CardinalityViolationError, _ICodec} from "gel";
-import {ObjectCodec} from "gel/dist/codecs/object";
+import {CardinalityViolationError, _ICodec} from "@dbsof/platform/client";
+import {ObjectCodec} from "@dbsof/platform/client";
 
-import {EdgeDBSet} from "../../../utils/decodeRawBuffer";
+import {ResultSet} from "../../../utils/decodeRawBuffer";
 
 import {ObservableLRU} from "../../../state/utils/lru";
 
@@ -29,22 +29,22 @@ import {
   SchemaLink,
   SchemaProperty,
   SchemaType,
-} from "@edgedb/common/schemaData";
-import {resolveObjectTypeUnion} from "@edgedb/common/schemaData/utils";
+} from "@dbsof/common/schemaData";
+import {resolveObjectTypeUnion} from "@dbsof/common/schemaData/utils";
 
-import {InspectorState, resultGetterCtx} from "@edgedb/inspector/state";
+import {InspectorState, resultGetterCtx} from "@dbsof/inspector/state";
 
 import {dbCtx, connCtx} from "../../../state";
 import {DataEditingManager, UpdateLinkChangeKind} from "./edits";
 import {sessionStateCtx} from "../../../state/sessionState";
 import {sortObjectTypes} from "../../../components/objectTypeSelect";
 
-import {DataGridState} from "@edgedb/common/components/dataGrid/state";
+import {DataGridState} from "@dbsof/common/components/dataGrid/state";
 import {deserialiseFieldConfig, serialiseFieldConfig} from "../fieldConfig";
 import {
   storeLocalStorageCacheItem,
   getLocalStorageCacheItem,
-} from "@edgedb/common/utils/localStorageCache";
+} from "@dbsof/common/utils/localStorageCache";
 
 const fetchBlockSize = 100;
 
@@ -633,12 +633,13 @@ export class DataInspector extends Model({
 
     const fields = [...baseFields, ...subtypeFields];
     this.allFields = new Map(fields.map((field) => [field.id, field]));
+    const idField = fields.find((f) => f.name === "id");
     if (!this.fieldConfig) {
       this.fieldConfig = {
         order: fields
           .sort((a, b) => (a.name === "id" ? -1 : b.name === "id" ? 1 : 0))
           .map((f) => f.id),
-        selected: new Set(baseFields.map((f) => f.id)),
+        selected: new Set(baseFields.filter((f) => f.name !== "id").map((f) => f.id)),
         pinned: new Set(),
       };
     } else {
@@ -650,10 +651,14 @@ export class DataInspector extends Model({
         .map((f) => f.id);
       order.push(...newFieldIds);
       const selected = new Set(
-        [...this.fieldConfig.selected].filter((id) => this.allFields!.has(id))
+        [...this.fieldConfig.selected].filter(
+          (id) => this.allFields!.has(id) && (!idField || id !== idField.id)
+        )
       );
       const pinned = new Set(
-        [...this.fieldConfig.pinned].filter((id) => this.allFields!.has(id))
+        [...this.fieldConfig.pinned].filter(
+          (id) => this.allFields!.has(id) && (!idField || id !== idField.id)
+        )
       );
       for (const field of baseFields) {
         if (newFieldIds.includes(field.id)) {
@@ -824,21 +829,22 @@ export class DataInspector extends Model({
     const conn = connCtx.get(this)!;
     const dbState = dbCtx.get(this)!;
 
-    const {query, params} = this.getBaseObjectsQuery();
+    const tableName = this.objectType?.name;
+    if (!tableName) return;
     dbState.setLoadingTab(DataView, true);
 
     this._runningRowCount?.abort();
     this._runningRowCount = new AbortController();
     this.rowCount = null;
 
+    const filterClause = this.filter[0]?.trim();
+    const whereClause = filterClause ? `WHERE ${filterClause}` : "";
+
     try {
       const data = yield* _await(
         conn.query(
-          `with baseQuery := (${query})
-          select count((select baseQuery ${
-            this.filter[0] ? ` FILTER ${this.filter[0]}` : ""
-          }))`,
-          params,
+          `SELECT COUNT(*) FROM "${tableName}" ${whereClause}`,
+          undefined,
           undefined,
           this._runningRowCount.signal
         )
@@ -915,7 +921,7 @@ export class DataInspector extends Model({
 
   // data fetching
 
-  data = new ObservableLRU<number, EdgeDBSet>(20);
+  data = new ObservableLRU<number, ResultSet>(20);
 
   @observable.ref
   dataCodecs: Map<string, _ICodec> | null = null;
@@ -971,9 +977,12 @@ export class DataInspector extends Model({
       return value;
     }
 
-    const query = `select (select ${
-      field.escapedSubtypeName ?? this._getObjectTypeQuery
-    } filter .id = <uuid>$id).${field.escapedName}`;
+    const tableName = this.objectType?.name;
+    if (!tableName) {
+      return value;
+    }
+
+    const query = `SELECT "${field.name}" FROM "${tableName}" WHERE id = :id`;
 
     const conn = connCtx.get(this)!;
     return conn.query(query, {id: dataId}).then(({result}) => {
@@ -1069,7 +1078,7 @@ export class DataInspector extends Model({
   });
 
   @modelAction
-  _setData(offset: number, data: EdgeDBSet) {
+  _setData(offset: number, data: ResultSet) {
     this.data.set(offset, data);
 
     const endCount = offset * fetchBlockSize + data.length;
@@ -1128,169 +1137,53 @@ export class DataInspector extends Model({
 
   // queries
 
-  get _getObjectTypeQuery() {
-    const typeUnionNames = resolveObjectTypeUnion(this.objectType!).map(
-      (t) => t.escapedName
-    );
-
-    return typeUnionNames.length > 1
-      ? `{${typeUnionNames.join(", ")}}`
-      : typeUnionNames[0];
-  }
-
-  get _baseObjectsQuery() {
-    if (this.parentObject && typeof this.parentObject.id === "string") {
-      return this.parentObject.isComputedLink ||
-        this.objectType?.unionOf?.length
-        ? `(SELECT ${
-            this.parentObject.subtypeName ?? this.parentObject.objectTypeName
-          } FILTER .id = <uuid>'${this.parentObject.id}').${
-            this.parentObject.escapedFieldName
-          }`
-        : `(select ${this._getObjectTypeQuery} ` +
-            `filter .<${this.parentObject.escapedFieldName}[is ${this.parentObject.objectTypeName}].id = <uuid>'${this.parentObject.id}')`;
-    }
-
-    const typeUnionNames = resolveObjectTypeUnion(this.objectType!).map(
-      (t) => t.escapedName
-    );
-
-    return this.parentObject
-      ? `<${typeUnionNames.join(" | ")}>{}`
-      : typeUnionNames.length > 1
-      ? `{${typeUnionNames.join(", ")}}`
-      : typeUnionNames[0];
-  }
-
-  getBaseObjectsQuery() {
-    if (this.parentObject?.editMode) {
-      if (typeof this.parentObject.id === "string") {
-        return {
-          query: `with linkedObjects := (${this._baseObjectsQuery}),
-            objs := ${this._getObjectTypeQuery}
-          select objs {
-            __isLinked := objs in linkedObjects
-          }`,
-        };
-      }
-
-      return {
-        query: `select (${this._getObjectTypeQuery}) {
-        __isLinked := false
-      }`,
-      };
-    } else {
-      const dataView = findParent<DataView>(
-        this,
-        (parent) => parent instanceof DataView
-      );
-
-      const addedLinkIds = this.parentObject
-        ? [
-            ...(dataView?.edits.linkEdits
-              .get(this.parentObject.linkId)
-              ?.changes.values() ?? []),
-          ]
-            .filter((change) => change.kind !== UpdateLinkChangeKind.Remove)
-            .map((change) => change.id)
-        : null;
-      if (addedLinkIds?.length) {
-        return {
-          query: `select {
-            (${this._baseObjectsQuery}),
-            (select ${this._getObjectTypeQuery} filter .id in <uuid>array_unpack(<array<std::str>>$addedLinkIds))
-          }`,
-          params: {addedLinkIds},
-        };
-      } else {
-        return {query: `select ${this._baseObjectsQuery}`};
-      }
-    }
-  }
-
-  fieldNeedsAccessPolicyWorkaround(field: ObjectLinkField): boolean {
-    const config = connCtx.get(this)!.sessionConfig;
-    return (
-      (config["apply_access_policies"] ?? true) &&
-      field.required &&
-      field.targetHasSelectAccessPolicy
-    );
-  }
-
   @computed
   get dataQuery() {
-    if (!this.selectedFields.length) {
+    if (!this.selectedFields.length || !this.objectType) {
       return null;
     }
 
-    const sortField = this.sortBy
-      ? this.selectedFields.find((f) => f.id === this.sortBy!.fieldId)
-      : null;
-
-    const inEditMode = this.parentObject?.editMode;
-
-    const {query: baseObjectsQuery, params} = this.getBaseObjectsQuery();
+    const tableAlias = "t";
+    const selectCols = [`${tableAlias}."id" AS "id"`];
+    const linkCounts: string[] = [];
+    for (const field of this.selectedFields) {
+      if (field.name === "id" || field.secret) continue;
+      if (field.type === ObjectFieldType.property) {
+        selectCols.push(
+          `${tableAlias}."${field.escapedName}" AS "${field.queryName}"`
+        );
+      } else {
+        const pointer = this.objectType?.links[field.name];
+        const countAlias = `"__count_${field.queryName}"`;
+        if ((pointer as any)?._refSource && (pointer as any)?._refColumn) {
+          const fkSource = (pointer as any)._refSource;
+          const fkCol = (pointer as any)._refColumn;
+          linkCounts.push(
+            `(SELECT COUNT(*) FROM "${fkSource}" src WHERE src."${fkCol}" = ${tableAlias}."id") AS ${countAlias}`
+          );
+        } else if (pointer?.source?.name === this.objectType?.name) {
+          const fkCol = pointer.expr || `${field.name}_id`;
+          linkCounts.push(
+            `CASE WHEN ${tableAlias}."${fkCol}" IS NULL THEN 0 ELSE 1 END AS ${countAlias}`
+          );
+        } else {
+          linkCounts.push(`0 AS ${countAlias}`);
+        }
+      }
+    }
+    const filterClause = this.filter[0]?.trim();
+    const whereClause = filterClause ? `WHERE ${filterClause}` : "";
+    const sortClause = this.sortBy
+      ? `ORDER BY "${this.sortBy!.fieldId}" ${this.sortBy!.direction}`
+      : "ORDER BY id";
 
     return {
-      query: `WITH
-    baseObjects := (${baseObjectsQuery}),
-    rows := (SELECT baseObjects ${
-      this.filter[0] ? `FILTER ${this.filter[0]}` : ""
-    } ORDER BY ${inEditMode ? `.__isLinked DESC THEN` : ""}${
-        sortField
-          ? `${
-              sortField.escapedSubtypeName
-                ? `[IS ${sortField.escapedSubtypeName}]`
-                : ""
-            }.${sortField.escapedName} ${this.sortBy!.direction} THEN`
-          : ""
-      } .id OFFSET <int32>$offset LIMIT ${fetchBlockSize})
-    SELECT rows {
-      id,
-      ${inEditMode ? "__isLinked," : ""}
-      ${this.selectedFields
-        .filter((field) => field.name !== "id" && !field.secret)
-        .map((field) => {
-          const selectName = `${
-            field.subtypeName ? `[IS ${field.escapedSubtypeName}]` : ""
-          }.${field.escapedName}`;
-
-          if (field.type === ObjectFieldType.property) {
-            return `${field.queryName} := ${
-              field.typename === "std::str"
-                ? `${selectName}[0:100]`
-                : selectName
-            }`;
-          } else {
-            if (this.omittedLinks.has(field.name)) {
-              return `__count_${field.queryName} := <int32>{}`;
-            }
-            const typeUnionNames = resolveObjectTypeUnion(
-              this.objectType!
-            ).map((t) => t.escapedName);
-            return `__count_${field.queryName} := <int32>count((
-              select ${
-                this.fieldNeedsAccessPolicyWorkaround(field)
-                  ? `(
-                with sourceId := .id
-                select ${field.escapedTypename}
-                filter ${typeUnionNames
-                  .map(
-                    (name) =>
-                      `.<${field.escapedName}[is ${name}].id = sourceId`
-                  )
-                  .join(" or ")}
-              )`
-                  : selectName
-              }
-              limit 120
-            ))`;
-          }
-        })
-        .filter((line) => !!line)
-        .join(",\n")}
-    } `,
-      params,
+      query: `SELECT ${[...selectCols, ...linkCounts].join(", ")} FROM "${
+        this.objectType.name
+      }" ${tableAlias}
+      ${whereClause}
+      ${sortClause} LIMIT ${fetchBlockSize} OFFSET :offset`,
+      params: {offset: 0},
     };
   }
 
@@ -1320,25 +1213,18 @@ export class DataInspector extends Model({
 
   _getStrippedFilter() {
     const filter = this.filterEditStr.toString();
-    // strip out first lines starting with a comment as we know the # symbol
-    // can't be part of the filter expr in a string yet, and we need the actual
-    // start of the expr to remove any 'filter' keyword prefix
     const lines = filter.split("\n");
     const start = lines.findIndex((line) => !/^\s*#/.test(line));
-    return [
-      // wrap with newlines so any further comments can't break the query this
-      // filter gets embedded into, and the compiler will handle them correctly
-      "\n" +
-        lines
-          .slice(start == -1 ? 0 : start)
-          .join("\n")
-          .trimStart()
-          .replace(/^filter\s/i, "")
-          .trimEnd()
-          .replace(/;+$/, "") +
-        "\n",
-      filter,
-    ] as [string, string];
+    const cleaned = lines
+      .slice(start === -1 ? 0 : start)
+      .join("\n")
+      .trim();
+    const withoutKeyword = cleaned
+      .replace(/^(filter|where)\s+/i, "")
+      .trim()
+      .replace(/;+$/, "");
+
+    return [withoutKeyword, filter] as [string, string];
   }
 
   @computed
@@ -1353,38 +1239,10 @@ export class DataInspector extends Model({
   applyFilter = _async(function* (this: DataInspector) {
     const [filter, origFilter] = this._getStrippedFilter();
 
-    if (!filter) {
-      this.errorFilter = null;
-      this.filter = ["", ""];
-
-      this._refreshData(true);
-
-      return;
-    }
-
-    const filterCheckQuery = `SELECT ${this._baseObjectsQuery} FILTER ${filter} ORDER BY .id`;
-
-    const conn = connCtx.get(this)!;
+    this.errorFilter = null;
+    this.filter = filter ? [filter, origFilter] : ["", ""];
 
     this.abortFetching();
-
-    try {
-      yield* _await(conn.parse(filterCheckQuery));
-    } catch (err: any) {
-      const errMessage = String(err.message).split("\n")[0];
-      this.errorFilter = {
-        filter,
-        error: /unexpected 'ORDER'/i.test(errMessage)
-          ? "Filter can only contain 'FILTER' clause"
-          : errMessage,
-      };
-
-      return;
-    }
-
-    this.errorFilter = null;
-    this.filter = [filter, origFilter];
-
     this._refreshData(true);
   });
 
@@ -1463,22 +1321,35 @@ class ExpandedInspector extends Model({
       );
     }
 
-    const objectType = parentObjectType.links[fieldName].target!;
+    const link = parentObjectType.links[fieldName];
+    if (!link || !link.target) {
+      throw new Error(`Could not find link '${fieldName}' on ${parentObjectTypeName}`);
+    }
 
-    const query = `with parentObj := (select ${
-      parentObjectType.escapedName
-    } filter .id = <uuid><str>$id)
-      select parentObj.\`${fieldName}\` {
-        ${[
-          ...Object.values(objectType.properties)
-            .filter((p) => !p.secret)
-            .map((prop) => prop.escapedName),
-          ...Object.values(objectType.links).map(
-            (link) => `${link.escapedName} limit 0,
-        \`__count_${link.name}\` := count(.${link.escapedName})`
-          ),
-        ].join(",\n")}
-      }`;
+    const objectType = link.target;
+
+    const selectCols = [
+      ...Object.values(objectType.properties)
+        .filter((p) => !p.secret)
+        .map((prop) => `"${prop.name}"`),
+    ];
+    if (!selectCols.includes(`"id"`)) {
+      selectCols.unshift(`"id"`);
+    }
+
+    const fkColumn = link.expr || `${fieldName}_id`;
+    const sourceTable =
+      (link as any)?._refSource && (link as any)?._refColumn
+        ? (link as any)._refSource
+        : parentObjectType.name;
+    const sourceFkCol =
+      (link as any)?._refColumn && link.source?.name !== parentObjectType.name
+        ? (link as any)._refColumn
+        : fkColumn;
+
+    const query = `SELECT ${selectCols.join(", ")} FROM "${objectType.name}" target
+      JOIN "${sourceTable}" source ON source."${sourceFkCol}" = target.id
+      WHERE source.id = :id`;
 
     const {result} = await dbState.connection!.query(
       query,
@@ -1540,15 +1411,6 @@ class ExpandedInspector extends Model({
     );
   }
 
-  linkNeedsAccessPolicyWorkaround(link: SchemaLink): boolean {
-    const config = connCtx.get(this)!.sessionConfig;
-    return (
-      (config["apply_access_policies"] ?? true) &&
-      link.required &&
-      pointerTargetHasSelectAccessPolicy(link)
-    );
-  }
-
   @computed
   get dataQuery() {
     const schemaData = dbCtx.get(this)!.schemaData!;
@@ -1561,63 +1423,17 @@ class ExpandedInspector extends Model({
       );
     }
 
-    const dataInspector = findParent<DataInspector>(
-      this,
-      (parent) => parent instanceof DataInspector
-    )!;
+    const selectCols = [
+      ...Object.values(objectType.properties)
+        .filter((p) => !p.secret)
+        .map((prop) => `"${prop.name}"`),
+    ];
+    if (!selectCols.includes(`"id"`)) {
+      selectCols.unshift(`"id"`);
+    }
 
-    return `select ${objectType.escapedName} {
-      ${[
-        ...Object.values(objectType.properties)
-          .filter((p) => !p.secret)
-          .map((prop) => {
-            return prop.escapedName;
-          }),
-        ...Object.values(objectType.links).map((link) => {
-          if (dataInspector.omittedLinks.has(link.name)) {
-            return `\`__${link.name}\` := <std::Object>{},
-              \`__count___${link.name}\` := 0`;
-          }
-          const accessPolicyWorkaround =
-            this.linkNeedsAccessPolicyWorkaround(link);
-          const singleLink = link.cardinality === "One";
-          const linkName = accessPolicyWorkaround
-            ? `__${link.name}`
-            : link.name;
-          const linkSelect = `${
-            accessPolicyWorkaround
-              ? `\`${linkName}\` := ${singleLink ? "assert_single(" : ""}(
-                with sourceId := .id
-                select ${link.target!.escapedName}
-                filter .<${link.escapedName}.id = sourceId
-                limit 10
-              )${singleLink ? ")" : ""}`
-              : `\`${linkName}\`: `
-          } {
-          ${[
-            ...Object.values(link.target!.properties),
-            ...Object.values(link.target!.links),
-          ]
-            .map((subField) =>
-              subField.type === "Property"
-                ? subField.escapedName
-                : `${subField.escapedName} limit 0,
-                \`__count_${subField.name}\` := count(.${subField.escapedName})`
-            )
-            .join(",\n")}
-        }${accessPolicyWorkaround ? "" : " limit 10"}`;
-          return `${linkSelect},
-        \`__count_${linkName}\` := count(${
-            accessPolicyWorkaround
-              ? `(
-          with sourceId := .id
-          select ${link.target!.escapedName}
-          filter .<${link.escapedName}.id = sourceId
-        )`
-              : `.\`${linkName}\``
-          })`;
-        }),
-      ].join(",\n")}
-    } filter .id = <uuid><str>$objectId`;
+    return `SELECT ${selectCols.join(", ")} FROM "${objectType.name}"
+      WHERE id = :objectId
+      LIMIT 1`;
   }
 }
